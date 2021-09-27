@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="cot">
+    <output-path>$PROJECT_DIR$/out/artifacts/cot</output-path>
+    <root id="archive" name="cot.jar">
+      <element id="module-output" name="COT-Charts" />
+      <element id="library" level="project" name="commons-math3" />
+      <element id="library" level="project" name="poi-examples-3.16" />
+      <element id="library" level="project" name="poi-excelant-3.16" />
+      <element id="library" level="project" name="poi-ooxml-3.16" />
+      <element id="library" level="project" name="poi-ooxml-schemas-3.16" />
+      <element id="library" level="project" name="poi-scratchpad-3.16" />
+    </root>
+  </artifact>
+</component>
