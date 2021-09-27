@@ -144,7 +144,7 @@ public class COTupdater {
     }
 
     private void writefuturefiles() {
-        try {
+        //try {
             File headfile = new File("head");
             File dir = new File("tables");
             if (!dir.exists()) {
@@ -152,8 +152,10 @@ public class COTupdater {
             }
 
             folder = dir.getPath();
+            COTparser parser = new COTparser(folder, futureslist, list_of_files, hash);
+            parser.start();
 
-            Thread t1 = new Thread(new parseFiles(folder, futureslist, 0, 9, list_of_files, hash));
+            /*Thread t1 = new Thread(new parseFiles(folder, futureslist, 0, 9, list_of_files, hash));
             t1.start();
             Thread t2 = new Thread(new parseFiles(folder, futureslist, 10, 19, list_of_files, hash));
             t2.start();
@@ -168,9 +170,9 @@ public class COTupdater {
             t2.join();
             t3.join();
             t4.join();
-            t5.join();
-        }
-        catch (InterruptedException e1) {e1.printStackTrace();}
+            t5.join();*/
+        //}
+        //catch (InterruptedException e1) {e1.printStackTrace();}
 
         // currentdate_string
         InputStream is;
