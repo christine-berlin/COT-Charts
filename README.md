@@ -19,7 +19,7 @@ An Oscillator is a technical analysis tool. It helps determining whether a marke
 ## Requirements
 ```Apache POI```library has to be installed. <br>
 The following are the required jars:
-- ```commons-math3-3.6.1.jar``
+- ```commons-math3-3.6.1.jar```
 - ```poi-5.0.0.jar```
 - ```poi-examples-5.0.0.jar```
 - ```poi-excelant-5.0.0.jar```
