@@ -25,7 +25,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
-public class COTupdater {
+public class UpdateExcelFiles {
     private File folder_futures;
     private File[] list_of_files;
     private String folder = "";
@@ -152,7 +152,7 @@ public class COTupdater {
             }
 
             folder = dir.getPath();
-            COTparser parser = new COTparser(folder, futureslist, list_of_files, hash);
+            ExcelParser parser = new ExcelParser(folder, futureslist, list_of_files, hash);
             parser.start();
 
             /*Thread t1 = new Thread(new parseFiles(folder, futureslist, 0, 9, list_of_files, hash));

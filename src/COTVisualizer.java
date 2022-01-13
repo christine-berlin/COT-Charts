@@ -60,11 +60,11 @@ public class COTVisualizer {
     public static int dy = 0;
     public static int delta_x = 5;
     public static JButton update;
-    public static COTupdater up;
+    public static UpdateExcelFiles up;
     public static int Max;
 
     public static void main(String[] args) {
-        up = new COTupdater();
+        up = new UpdateExcelFiles();
         up.init();
         myframe = new JFrame("COTViz");
         myframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,8 +74,8 @@ public class COTVisualizer {
             @Override
             public void componentResized(ComponentEvent e) {
                 if (!selected.equals("")) {
-                    MyRectanglePanel.drawgraph = true;
-                    MyOszillator.drawoszillator = true;
+                    ChartsPanel.drawgraph = true;
+                    Oscillator.drawoszillator = true;
                     myframe.repaint();
                 }
             }
@@ -162,8 +162,8 @@ public class COTVisualizer {
 
                         dx = 0;
                         dy = 0;
-                        MyOszillator.drawoszillator = true;
-                        MyRectanglePanel.drawgraph = true;
+                        Oscillator.drawoszillator = true;
+                        ChartsPanel.drawgraph = true;
                         myframe.repaint();
 
                     }
@@ -186,8 +186,8 @@ public class COTVisualizer {
             public void itemStateChanged(ItemEvent arg0) {
                 grid = !grid;
                 if (!selected.equals("")) {
-                    MyRectanglePanel.drawgraph = true;
-                    MyOszillator.drawoszillator = true;
+                    ChartsPanel.drawgraph = true;
+                    Oscillator.drawoszillator = true;
                 }
                 myframe.repaint();
             }
@@ -201,8 +201,8 @@ public class COTVisualizer {
             public void itemStateChanged(ItemEvent arg0) {
                 drawcrosshair = !drawcrosshair;
                 if (!selected.equals("")) {
-                    MyRectanglePanel.drawgraph = true;
-                    MyOszillator.drawoszillator = true;
+                    ChartsPanel.drawgraph = true;
+                    Oscillator.drawoszillator = true;
                 }
                 myframe.repaint();
             }
@@ -213,7 +213,7 @@ public class COTVisualizer {
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                MyRectanglePanel.updating = true;
+                ChartsPanel.updating = true;
 
                 //show updating message
                 myframe.repaint();
@@ -223,21 +223,21 @@ public class COTVisualizer {
                     @Override public void run() {
                         up.readhead();
 
-                        MyRectanglePanel.downloading = true;
+                        ChartsPanel.downloading = true;
                         myframe.repaint();
                         up.downloadCOT();
 
 
-                        MyRectanglePanel.creatingtables = true;
-                        MyRectanglePanel.downloading = false;
+                        ChartsPanel.creatingtables = true;
+                        ChartsPanel.downloading = false;
                         myframe.repaint();
                         up.update();
 
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override public void run() {
-                                MyRectanglePanel.updating = false;
-                                MyRectanglePanel.creatingtables = false;
-                                MyRectanglePanel.test = false;
+                                ChartsPanel.updating = false;
+                                ChartsPanel.creatingtables = false;
+                                ChartsPanel.test = false;
                                 myframe.repaint();
                             }
                         });
@@ -253,10 +253,10 @@ public class COTVisualizer {
         tb.add(crosshair_box);
         tb.add(update);
         tb.add(dummy);
-        oszillator = new MyOszillator();
+        oszillator = new Oscillator();
         oszillator.setPreferredSize(new Dimension(myframe.getWidth(), 150));
         oszillator.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        panelpaint = new MyRectanglePanel();
+        panelpaint = new ChartsPanel();
         panelpaint.setPreferredSize(new Dimension(myframe.getWidth(), 500));
         panelpaint.setBackground(Color.DARK_GRAY);
 
@@ -265,8 +265,8 @@ public class COTVisualizer {
             public void mousePressed(MouseEvent e) {
                 if (!selected.equals("")) {
                     mousePT = e.getPoint();
-                    MyRectanglePanel.drawgraph = true;
-                    MyOszillator.drawoszillator = true;
+                    ChartsPanel.drawgraph = true;
+                    Oscillator.drawoszillator = true;
                     myframe.repaint();
                 }
             }
@@ -275,19 +275,19 @@ public class COTVisualizer {
         panelpaint.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent arg0) {
-                if ((!selected.equals("")) && (arg0.getX() < MyRectanglePanel.width - MyRectanglePanel.space_right)) {
+                if ((!selected.equals("")) && (arg0.getX() < ChartsPanel.width - ChartsPanel.space_right)) {
                     dx = arg0.getX() - mousePT.x;
                     dy = arg0.getY() - mousePT.y;
-                    MyRectanglePanel.drawgraph = true;
-                    MyOszillator.drawoszillator = true;
+                    ChartsPanel.drawgraph = true;
+                    Oscillator.drawoszillator = true;
                     myframe.repaint();
                 }
 
-                if ((!selected.equals("")) && (arg0.getX() > MyRectanglePanel.width - MyRectanglePanel.space_right)
-                        && (arg0.getY() < MyRectanglePanel.height - MyRectanglePanel.space_buttom)) {
+                if ((!selected.equals("")) && (arg0.getX() > ChartsPanel.width - ChartsPanel.space_right)
+                        && (arg0.getY() < ChartsPanel.height - ChartsPanel.space_buttom)) {
                     dy = arg0.getY() - mousePT.y;
-                    MyRectanglePanel.drawgraph = true;
-                    MyOszillator.drawoszillator = true;
+                    ChartsPanel.drawgraph = true;
+                    Oscillator.drawoszillator = true;
                     myframe.repaint();
                 }
             }
@@ -301,8 +301,8 @@ public class COTVisualizer {
 
                 if (!selected.equals("") && (tablesFolder.isDirectory())) {
 
-                    MyRectanglePanel.drawgraph = true;
-                    MyOszillator.drawoszillator = true;
+                    ChartsPanel.drawgraph = true;
+                    Oscillator.drawoszillator = true;
                     myframe.repaint();
                 }
             }

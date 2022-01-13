@@ -8,14 +8,20 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-
-public class COTparser {
+/**
+ * Class <code>COTExcelParser</code> parses the Excel files from the COT report.
+ * @author Christine Merkel
+ *
+ */
+public class ExcelParser {
     int end;
     String[] futureslist;
     File[] list_of_files;
     String folder;
     HashMap<String, String> hash;
-    public COTparser(String folder, String[] futureslist,  File[] list_of_files, HashMap<String, String> hash) {
+    
+    
+    public ExcelParser(String folder, String[] futureslist,  File[] list_of_files, HashMap<String, String> hash) {
         this.folder = folder;
         this.futureslist = futureslist;
         end = hash.size()-1;
@@ -47,8 +53,8 @@ public class COTparser {
                             if (OS.startsWith("Windows")) path = folder + "\\" + name;
                             if (!OS.startsWith("Windows")) path = folder + "/" + name;
                             File f = new File(path);
-                            MyRectanglePanel.test = true;
-                            MyRectanglePanel.filename = name;
+                            ChartsPanel.test = true;
+                            ChartsPanel.filename = name;
                             COTVisualizer.myframe.repaint();
 
                             FileWriter tablefw = new FileWriter(f, true);
