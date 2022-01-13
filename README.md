@@ -6,7 +6,7 @@ The tool displays two charts. On the top the COT chart, on the bottom an oscilla
 
 ## COT chart
 In the COT report there are 3 main groups of traders:<br>
-- commercials traders (coomercials) <br> this are companies that produce a commidity, like corn, coffee, etc, and they use the Futures to hedge their risk.
+- commercials traders (coomercials) <br> this are companies that produce a commidity, like corn, coffee, etc, and they use the Futures to hedge their risk. They are mostly positioned in the opposite direction of the other two groups.
 - non-commercial traders (lage traders) <br>  this are large instututional investors and hedge fonds.
 - retail traders (small traders) <br> their positions are too small and hence they don't have to report them.
 
