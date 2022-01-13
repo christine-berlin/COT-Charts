@@ -49,7 +49,7 @@ public class COTVisualizer {
     public static Integer[] commercials;
     public static Integer[] largetraders;
     public static Integer[] smalltraders;
-    public static Integer[] oszillator26;
+    public static Integer[] oscillator;
     public static int crosshairx, crosshairy;
     public static boolean drawcrosshair = false;
     public static boolean grid = false;
@@ -75,7 +75,7 @@ public class COTVisualizer {
             public void componentResized(ComponentEvent e) {
                 if (!selected.equals("")) {
                     ChartsPanel.drawgraph = true;
-                    Oscillator.drawoszillator = true;
+                    OscillatorPanel.showOscillator = true;
                     myframe.repaint();
                 }
             }
@@ -140,11 +140,11 @@ public class COTVisualizer {
                             if(Math.abs(largetraders[i]) > Max) Max = Math.abs(largetraders[i]);
                         }
 
-                        oszillator26 = new Integer[dates.length - 26];
+                        oscillator = new Integer[dates.length - 26];
 
                         List<Integer> oszillator26_list = new ArrayList<Integer>();
                         int t = 0;
-                        while (t < oszillator26.length) {
+                        while (t < oscillator.length) {
                             oszillator26_list = commercials_list.subList(t, 26 + t);
                             int min26 = t + oszillator26_list.indexOf(Collections.min(oszillator26_list));
                             int max26 = t + oszillator26_list.indexOf(Collections.max(oszillator26_list));
@@ -156,13 +156,13 @@ public class COTVisualizer {
                             if ((f - g) != 0)
                                 o = 100 * (d - g) / (f - g);
 
-                            oszillator26[t] = o;
+                            oscillator[t] = o;
                             t++;
                         }
 
                         dx = 0;
                         dy = 0;
-                        Oscillator.drawoszillator = true;
+                        OscillatorPanel.showOscillator = true;
                         ChartsPanel.drawgraph = true;
                         myframe.repaint();
 
@@ -187,7 +187,7 @@ public class COTVisualizer {
                 grid = !grid;
                 if (!selected.equals("")) {
                     ChartsPanel.drawgraph = true;
-                    Oscillator.drawoszillator = true;
+                    OscillatorPanel.showOscillator = true;
                 }
                 myframe.repaint();
             }
@@ -202,7 +202,7 @@ public class COTVisualizer {
                 drawcrosshair = !drawcrosshair;
                 if (!selected.equals("")) {
                     ChartsPanel.drawgraph = true;
-                    Oscillator.drawoszillator = true;
+                    OscillatorPanel.showOscillator = true;
                 }
                 myframe.repaint();
             }
@@ -253,7 +253,7 @@ public class COTVisualizer {
         tb.add(crosshair_box);
         tb.add(update);
         tb.add(dummy);
-        oszillator = new Oscillator();
+        oszillator = new OscillatorPanel();
         oszillator.setPreferredSize(new Dimension(myframe.getWidth(), 150));
         oszillator.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         panelpaint = new ChartsPanel();
@@ -266,7 +266,7 @@ public class COTVisualizer {
                 if (!selected.equals("")) {
                     mousePT = e.getPoint();
                     ChartsPanel.drawgraph = true;
-                    Oscillator.drawoszillator = true;
+                    OscillatorPanel.showOscillator = true;
                     myframe.repaint();
                 }
             }
@@ -279,7 +279,7 @@ public class COTVisualizer {
                     dx = arg0.getX() - mousePT.x;
                     dy = arg0.getY() - mousePT.y;
                     ChartsPanel.drawgraph = true;
-                    Oscillator.drawoszillator = true;
+                    OscillatorPanel.showOscillator = true;
                     myframe.repaint();
                 }
 
@@ -287,7 +287,7 @@ public class COTVisualizer {
                         && (arg0.getY() < ChartsPanel.height - ChartsPanel.space_buttom)) {
                     dy = arg0.getY() - mousePT.y;
                     ChartsPanel.drawgraph = true;
-                    Oscillator.drawoszillator = true;
+                    OscillatorPanel.showOscillator = true;
                     myframe.repaint();
                 }
             }
@@ -302,7 +302,7 @@ public class COTVisualizer {
                 if (!selected.equals("") && (tablesFolder.isDirectory())) {
 
                     ChartsPanel.drawgraph = true;
-                    Oscillator.drawoszillator = true;
+                    OscillatorPanel.showOscillator = true;
                     myframe.repaint();
                 }
             }

@@ -8,11 +8,20 @@ import java.awt.Point;
 
 import javax.swing.JPanel;
 
-//import javafx.scene.text.Font;
 
-public class Oscillator extends JPanel{
-    int space_right = 80;
-    public static boolean drawoszillator = false;
+/**
+ * Class <code>OscillatorPanel</code> is the bottom panel. It is used to visualize the oscillator.
+ * 
+ * @author Christine Merkel
+ *
+ */
+public class OscillatorPanel extends JPanel{
+	/** Width of the gray area on the right side of the GUI. */
+    static final int space_right = 80;
+    
+    /** The oscillator is shown or not */
+    public static boolean showOscillator;
+    
     @Override
     public void paintComponent(Graphics g)
     {
@@ -34,13 +43,13 @@ public class Oscillator extends JPanel{
         g.setColor(Color.CYAN);
         Font font = new Font("Verdana", Font.BOLD, 20);
         g.setFont(font);
-        g.drawString("Oszillator-26", 10, 20);
+        g.drawString("Oscillator", 10, 20);
 
         g.setColor(Color.BLACK);
         g.drawLine(getWidth()-space_right, 0, getWidth()-space_right, getHeight());
 
 
-        if(drawoszillator){
+        if(showOscillator){
             g.setColor(Color.LIGHT_GRAY);
             g.drawLine(0, getHeight()/2, getWidth()-ChartsPanel.space_right, getHeight()/2);
             g.drawLine(0, getHeight()/2-25, getWidth()-ChartsPanel.space_right, getHeight()/2-25);
@@ -62,17 +71,18 @@ public class Oscillator extends JPanel{
             g.drawString("100",getWidth()-ChartsPanel.space_right+10 , getHeight()/2+5-50);
 
             g.setColor(Color.GREEN);
-            int oszi_x= getWidth()-ChartsPanel.space_right+COTVisualizer.dx;
+            int x= getWidth()-ChartsPanel.space_right+COTVisualizer.dx;
 
-            for(int j=0;j<COTVisualizer.oszillator26.length-1/*100*/;j++){
-                if(oszi_x-j*5 <=ChartsPanel.width-ChartsPanel.space_right){
-                    g.drawLine(oszi_x-j*5,
-                            getHeight()/2+50-COTVisualizer.oszillator26[j],
-                            oszi_x-(j+1)*5,
-                            getHeight()/2+50-COTVisualizer.oszillator26[j+1]);
+            for(int j=0;j<COTVisualizer.oscillator.length-1;j++){
+                if(x-j*5 <=ChartsPanel.width-ChartsPanel.space_right){
+                    g.drawLine(x-j*5,
+                            getHeight()/2+50-COTVisualizer.oscillator[j],
+                            x-(j+1)*5,
+                            getHeight()/2+50-COTVisualizer.oscillator[j+1]);
                 }
             }
-            drawoszillator = false;
+            
+            showOscillator = false;
         }
     }
 }
