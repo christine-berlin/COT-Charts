@@ -6,12 +6,10 @@ The tool displays two charts. On the top the COT chart, on the bottom an oscilla
 
 ## COT chart
 In the COT report there are 3 main groups of traders:<br>
-- commercials traders (coomercials)
-- non-commercial traders (lage traders)
-- retail traders (small traders)
-The commercial traders are companies that produce a commidity, like corn, coffee, etc, and they use the Futures to hedge their risk. <br>
-The non-commercial traders are  large instututional investors and hedge fonds.<br>
-The retail traders are too small and hence they do not have to report their positions.
+- commercials traders (coomercials) <br> this are companies that produce a commidity, like corn, coffee, etc, and they use the Futures to hedge their risk.
+- non-commercial traders (lage traders) <br>  this are large instututional investors and hedge fonds.
+- retail traders (small traders) <br> their positions are too small and hence they don't have to report them.
+
 ## Oscillator
 An Oscillator is a technical analysis tool. It helps determining whether a market is overbought or oversold. The oscillator values fluctuate within an upper and lower bound. When the oscillator values reach the upper/lower bound, that could be a hint that the market is overbought/undersold.
 
