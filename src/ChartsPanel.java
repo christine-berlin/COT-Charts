@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 
 
-public class MyRectanglePanel extends JPanel {
+public class ChartsPanel extends JPanel {
     public static int space_right = 80;
     public static int space_buttom = 20;
     public static int width, height;

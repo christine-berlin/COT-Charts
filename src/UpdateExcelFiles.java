@@ -27,12 +27,12 @@ import org.apache.poi.ss.usermodel.Row;
 
 public class UpdateExcelFiles {
     private File folder_futures;
-    private File[] list_of_files;
+    private File[] excelFiles;
     private String folder = "";
     private int last_year;
     private String lastdate_string, currentdate_string;
-    private HashMap<String, String> hash = new HashMap<String, String>();
-    private String[] futureslist =  new String[] { "LEANHOGS", "FEEDERCATTLE", "LIVECATTLE", "LUMBER", "SUGARNo11", "COFFEE",
+    private HashMap<String, String> futureNames = new HashMap<String, String>();
+    private String[] futureNameAbbreviations =  new String[] { "LEANHOGS", "FEEDERCATTLE", "LIVECATTLE", "LUMBER", "SUGARNo11", "COFFEE",
             "ORANGEJUICE", "COTTON", "COCOA", "SOYBEANOIL", "SOYBEANMEAL", "SOYBEANS", "OATS", "RICE", "WHEAT",
             "CORN", "ETHANOL", "NATURALGAS", "HEATINGOIL", "GASOLINE", "WTI", "COPPER", "PALLADIUM", "GOLD",
             "SILVER", "PLATINUM", "S&P", "DJIA", "NASDAQ", "RUSSELL2000MINI", "NIKKEI", "USTREASURYBONDS",
@@ -100,7 +100,7 @@ public class UpdateExcelFiles {
 
         InputStream fs;
         try {
-            fs = new FileInputStream(list_of_files[0]);
+            fs = new FileInputStream(excelFiles[0]);
             HSSFWorkbook wb;
             wb = new HSSFWorkbook(fs);
             HSSFSheet sheet = wb.getSheetAt(0);
@@ -152,7 +152,7 @@ public class UpdateExcelFiles {
             }
 
             folder = dir.getPath();
-            ExcelParser parser = new ExcelParser(folder, futureslist, list_of_files, hash);
+            ExcelParser parser = new ExcelParser(folder, futureNameAbbreviations, excelFiles, futureNames);
             parser.start();
 
             /*Thread t1 = new Thread(new parseFiles(folder, futureslist, 0, 9, list_of_files, hash));
@@ -177,8 +177,8 @@ public class UpdateExcelFiles {
         // currentdate_string
         InputStream is;
         try {
-            int l = list_of_files.length;
-            is = new FileInputStream(list_of_files[l - 1]);
+            int l = excelFiles.length;
+            is = new FileInputStream(excelFiles[l - 1]);
             HSSFWorkbook hssfwb = new HSSFWorkbook(is);
             HSSFSheet sheet = hssfwb.getSheetAt(0);
             Row row = sheet.getRow(1);
@@ -235,9 +235,9 @@ public class UpdateExcelFiles {
         }
         unzipCOT();
         folder_futures = new File("unzip");
-        list_of_files = folder_futures.listFiles();
+        excelFiles = folder_futures.listFiles();
 
-        Arrays.sort(list_of_files);
+        Arrays.sort(excelFiles);
     }
 
     private void unzipCOT() {
@@ -296,56 +296,56 @@ public class UpdateExcelFiles {
     }
 
     public String[] getFuturesList() {
-        return futureslist;
+        return futureNameAbbreviations;
     }
 
     private void makehash() {
-        hash.put("LEANHOGS", "LEAN HOGS - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("FEEDERCATTLE", "FEEDER CATTLE - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("LIVECATTLE", "LIVE CATTLE - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("LUMBER", "RANDOM LENGTH LUMBER - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("SUGARNo11", "SUGAR NO. 11 - ICE FUTURES U.S.");
-        hash.put("COFFEE", "COFFEE C - ICE FUTURES U.S.");
-        hash.put("ORANGEJUICE", "FRZN CONCENTRATED ORANGE JUICE - ICE FUTURES U.S.");
-        hash.put("COTTON", "COTTON NO. 2 - ICE FUTURES U.S.");
-        hash.put("COCOA", "COCOA - ICE FUTURES U.S.");
-        hash.put("SOYBEANOIL", "SOYBEAN OIL - CHICAGO BOARD OF TRADE");
-        hash.put("SOYBEANMEAL", "SOYBEAN MEAL - CHICAGO BOARD OF TRADE");
-        hash.put("SOYBEANS", "SOYBEANS - CHICAGO BOARD OF TRADE");
-        hash.put("OATS", "OATS - CHICAGO BOARD OF TRADE");
-        hash.put("RICE", "ROUGH RICE - CHICAGO BOARD OF TRADE");
-        hash.put("WHEAT", "WHEAT-SRW - CHICAGO BOARD OF TRADE");
-        hash.put("CORN", "CORN - CHICAGO BOARD OF TRADE");
-        hash.put("ETHANOL", "CBT ETHANOL - CHICAGO BOARD OF TRADE");
-        hash.put("NATURALGAS", "NATURAL GAS - NEW YORK MERCANTILE EXCHANGE");
-        hash.put("HEATINGOIL", "#2 HEATING OIL");
-        hash.put("GASOLINE", "GASOLINE BLENDSTOCK (RBOB) - NEW YORK MERCANTILE EXCHANGE");
-        hash.put("WTI", "CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE");
-        hash.put("COPPER", "COPPER-GRADE #1 - COMMODITY EXCHANGE INC.");
-        hash.put("PALLADIUM", "PALLADIUM - NEW YORK MERCANTILE EXCHANGE");
-        hash.put("GOLD", "GOLD - COMMODITY EXCHANGE INC.");
-        hash.put("SILVER", "SILVER - COMMODITY EXCHANGE INC.");
-        hash.put("PLATINUM", "PLATINUM - NEW YORK MERCANTILE EXCHANGE");
-        hash.put("S&P", "S&P 500 Consolidated - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("DJIA", "DJIA Consolidated - CHICAGO BOARD OF TRADE");
-        hash.put("NASDAQ", "NASDAQ-100 Consolidated - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("RUSSELL2000MINI", "RUSSELL 2000 MINI INDEX FUTURE - ICE FUTURES U.S.");
-        hash.put("NIKKEI", "NIKKEI STOCK AVERAGE - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("USTREASURYBONDS", "U.S. TREASURY BONDS - CHICAGO BOARD OF TRADE");
-        hash.put("2YEARUSTREASURYNOTES", "2-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
-        hash.put("5YEARUSTREASURYNOTES", "5-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
-        hash.put("10YEARUSTREASURYNOTES", "10-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
-        hash.put("30DAYFEDERALFUNDS", "30-DAY FEDERAL FUNDS - CHICAGO BOARD OF TRADE");
-        hash.put("AUSTRALIANDOLLAR", "AUSTRALIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("BRAZILIANREAL", "BRAZILIAN REAL - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("BRITISHPOUNDSTERLING", "BRITISH POUND STERLING - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("EUROFX", "EURO FX - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("JAPANESEYEN", "JAPANESE YEN - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("CANADIANDOLLAR", "CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("MEXICANPESO", "MEXICAN PESO - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("NEWZEALANDDOLLAR", "NEW ZEALAND DOLLAR - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("RUSSIANRUBLE", "RUSSIAN RUBLE - CHICAGO MERCANTILE EXCHANGE");
-        hash.put("BITCOIN", "BITCOIN-USD - CBOE FUTURES EXCHANGE");
-        hash.put("SWISSFRANC", "SWISS FRANC - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("LEANHOGS", "LEAN HOGS - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("FEEDERCATTLE", "FEEDER CATTLE - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("LIVECATTLE", "LIVE CATTLE - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("LUMBER", "RANDOM LENGTH LUMBER - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("SUGARNo11", "SUGAR NO. 11 - ICE FUTURES U.S.");
+        futureNames.put("COFFEE", "COFFEE C - ICE FUTURES U.S.");
+        futureNames.put("ORANGEJUICE", "FRZN CONCENTRATED ORANGE JUICE - ICE FUTURES U.S.");
+        futureNames.put("COTTON", "COTTON NO. 2 - ICE FUTURES U.S.");
+        futureNames.put("COCOA", "COCOA - ICE FUTURES U.S.");
+        futureNames.put("SOYBEANOIL", "SOYBEAN OIL - CHICAGO BOARD OF TRADE");
+        futureNames.put("SOYBEANMEAL", "SOYBEAN MEAL - CHICAGO BOARD OF TRADE");
+        futureNames.put("SOYBEANS", "SOYBEANS - CHICAGO BOARD OF TRADE");
+        futureNames.put("OATS", "OATS - CHICAGO BOARD OF TRADE");
+        futureNames.put("RICE", "ROUGH RICE - CHICAGO BOARD OF TRADE");
+        futureNames.put("WHEAT", "WHEAT-SRW - CHICAGO BOARD OF TRADE");
+        futureNames.put("CORN", "CORN - CHICAGO BOARD OF TRADE");
+        futureNames.put("ETHANOL", "CBT ETHANOL - CHICAGO BOARD OF TRADE");
+        futureNames.put("NATURALGAS", "NATURAL GAS - NEW YORK MERCANTILE EXCHANGE");
+        futureNames.put("HEATINGOIL", "#2 HEATING OIL");
+        futureNames.put("GASOLINE", "GASOLINE BLENDSTOCK (RBOB) - NEW YORK MERCANTILE EXCHANGE");
+        futureNames.put("WTI", "CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE");
+        futureNames.put("COPPER", "COPPER-GRADE #1 - COMMODITY EXCHANGE INC.");
+        futureNames.put("PALLADIUM", "PALLADIUM - NEW YORK MERCANTILE EXCHANGE");
+        futureNames.put("GOLD", "GOLD - COMMODITY EXCHANGE INC.");
+        futureNames.put("SILVER", "SILVER - COMMODITY EXCHANGE INC.");
+        futureNames.put("PLATINUM", "PLATINUM - NEW YORK MERCANTILE EXCHANGE");
+        futureNames.put("S&P", "S&P 500 Consolidated - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("DJIA", "DJIA Consolidated - CHICAGO BOARD OF TRADE");
+        futureNames.put("NASDAQ", "NASDAQ-100 Consolidated - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("RUSSELL2000MINI", "RUSSELL 2000 MINI INDEX FUTURE - ICE FUTURES U.S.");
+        futureNames.put("NIKKEI", "NIKKEI STOCK AVERAGE - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("USTREASURYBONDS", "U.S. TREASURY BONDS - CHICAGO BOARD OF TRADE");
+        futureNames.put("2YEARUSTREASURYNOTES", "2-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
+        futureNames.put("5YEARUSTREASURYNOTES", "5-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
+        futureNames.put("10YEARUSTREASURYNOTES", "10-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
+        futureNames.put("30DAYFEDERALFUNDS", "30-DAY FEDERAL FUNDS - CHICAGO BOARD OF TRADE");
+        futureNames.put("AUSTRALIANDOLLAR", "AUSTRALIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("BRAZILIANREAL", "BRAZILIAN REAL - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("BRITISHPOUNDSTERLING", "BRITISH POUND STERLING - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("EUROFX", "EURO FX - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("JAPANESEYEN", "JAPANESE YEN - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("CANADIANDOLLAR", "CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("MEXICANPESO", "MEXICAN PESO - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("NEWZEALANDDOLLAR", "NEW ZEALAND DOLLAR - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("RUSSIANRUBLE", "RUSSIAN RUBLE - CHICAGO MERCANTILE EXCHANGE");
+        futureNames.put("BITCOIN", "BITCOIN-USD - CBOE FUTURES EXCHANGE");
+        futureNames.put("SWISSFRANC", "SWISS FRANC - CHICAGO MERCANTILE EXCHANGE");
     }
 }

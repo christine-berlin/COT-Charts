@@ -9,30 +9,47 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 /**
- * Class <code>COTExcelParser</code> parses the Excel files from the COT report.
+ * Class <code>COTExcelParser</code> parses the Excel files from the COT report and extracts
+ * the date, the net long of the commercials, large traders, and small traders, for every Future
+ * and writes this numbers as tables to files. The files are in the folder /tables.
  * @author Christine Merkel
  *
  */
 public class ExcelParser {
-    int end;
-    String[] futureslist;
-    File[] list_of_files;
-    String folder;
-    HashMap<String, String> hash;
+	/** Contains the Abbreviations of the Future Names. The Abbreviatiosn are used in the GUI. */
+    String[] futureNameAbbreviations;
     
+    /** list that contains the COT excel files */
+    File[] excelFiles;
     
-    public ExcelParser(String folder, String[] futureslist,  File[] list_of_files, HashMap<String, String> hash) {
-        this.folder = folder;
-        this.futureslist = futureslist;
-        end = hash.size()-1;
-        this.list_of_files = list_of_files;
-        this.hash = hash;
+    /** The folder that contains the table files.*/
+    String folderOfTables;
+    
+    /** HashMap that stores Future name and Abbreviation pairs */
+    HashMap<String, String> ńameAbbreviationPairs;
+    
+    /**
+     * Constructor
+     * 
+     * @param folderOfTables           folder that contains the table files 
+     * @param futureNameAbbreviations  list that contains the Abbreviations of the Future names
+     * @param excelFiles               list that contains the COT excel files
+     * @param nameAbbreviationPairs    HashMap that stores Future name and Abbreviation pairs
+     */
+    public ExcelParser(String folderOfTables, String[] futureNameAbbreviations,  File[] excelFiles, HashMap<String, String> nameAbbreviationPairs) {
+        this.folderOfTables = folderOfTables;
+        this.futureNameAbbreviations = futureNameAbbreviations;
+        this.excelFiles = excelFiles;
+        this.ńameAbbreviationPairs = nameAbbreviationPairs;
     }
 
+    /**
+     * Does the excel file parsing.
+     */
     public void start(){
         try {
-            for (int l = 0; l < list_of_files.length; l++) {
-                InputStream fs = new FileInputStream(list_of_files[l]);
+            for (int l = 0; l < excelFiles.length; l++) {
+                InputStream fs = new FileInputStream(excelFiles[l]);
                 HSSFWorkbook wb = new HSSFWorkbook(fs);
                 HSSFSheet sheet = wb.getSheetAt(0);
                 int r = sheet.getLastRowNum();
@@ -43,15 +60,15 @@ public class ExcelParser {
                     String celltext0 = cell0.getStringCellValue();
                     String line = "";
 
-                    for (int k = 0; k <= end; k++) {
-                        String name = futureslist[k];
+                    for (int k = 0; k <= ńameAbbreviationPairs.size()-1; k++) {
+                        String name = futureNameAbbreviations[k];
 
-                        if (celltext0.contains(hash.get(name)))
+                        if (celltext0.contains(ńameAbbreviationPairs.get(name)))
                         {
                             String path = "";
                             String OS = System.getProperty("os.name");
-                            if (OS.startsWith("Windows")) path = folder + "\\" + name;
-                            if (!OS.startsWith("Windows")) path = folder + "/" + name;
+                            if (OS.startsWith("Windows")) path = folderOfTables + "\\" + name;
+                            if (!OS.startsWith("Windows")) path = folderOfTables + "/" + name;
                             File f = new File(path);
                             ChartsPanel.test = true;
                             ChartsPanel.filename = name;
