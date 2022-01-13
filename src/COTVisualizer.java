@@ -74,7 +74,7 @@ public class COTVisualizer {
             @Override
             public void componentResized(ComponentEvent e) {
                 if (!selected.equals("")) {
-                    ChartsPanel.drawgraph = true;
+                    COTPanel.drawgraph = true;
                     OscillatorPanel.showOscillator = true;
                     myframe.repaint();
                 }
@@ -163,7 +163,7 @@ public class COTVisualizer {
                         dx = 0;
                         dy = 0;
                         OscillatorPanel.showOscillator = true;
-                        ChartsPanel.drawgraph = true;
+                        COTPanel.drawgraph = true;
                         myframe.repaint();
 
                     }
@@ -186,7 +186,7 @@ public class COTVisualizer {
             public void itemStateChanged(ItemEvent arg0) {
                 grid = !grid;
                 if (!selected.equals("")) {
-                    ChartsPanel.drawgraph = true;
+                    COTPanel.drawgraph = true;
                     OscillatorPanel.showOscillator = true;
                 }
                 myframe.repaint();
@@ -201,7 +201,7 @@ public class COTVisualizer {
             public void itemStateChanged(ItemEvent arg0) {
                 drawcrosshair = !drawcrosshair;
                 if (!selected.equals("")) {
-                    ChartsPanel.drawgraph = true;
+                    COTPanel.drawgraph = true;
                     OscillatorPanel.showOscillator = true;
                 }
                 myframe.repaint();
@@ -213,7 +213,7 @@ public class COTVisualizer {
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                ChartsPanel.updating = true;
+                COTPanel.updating = true;
 
                 //show updating message
                 myframe.repaint();
@@ -223,21 +223,21 @@ public class COTVisualizer {
                     @Override public void run() {
                         up.readhead();
 
-                        ChartsPanel.downloading = true;
+                        COTPanel.downloading = true;
                         myframe.repaint();
                         up.downloadCOT();
 
 
-                        ChartsPanel.creatingtables = true;
-                        ChartsPanel.downloading = false;
+                        COTPanel.creatingtables = true;
+                        COTPanel.downloading = false;
                         myframe.repaint();
                         up.update();
 
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override public void run() {
-                                ChartsPanel.updating = false;
-                                ChartsPanel.creatingtables = false;
-                                ChartsPanel.test = false;
+                                COTPanel.updating = false;
+                                COTPanel.creatingtables = false;
+                                COTPanel.test = false;
                                 myframe.repaint();
                             }
                         });
@@ -256,7 +256,7 @@ public class COTVisualizer {
         oszillator = new OscillatorPanel();
         oszillator.setPreferredSize(new Dimension(myframe.getWidth(), 150));
         oszillator.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        panelpaint = new ChartsPanel();
+        panelpaint = new COTPanel();
         panelpaint.setPreferredSize(new Dimension(myframe.getWidth(), 500));
         panelpaint.setBackground(Color.DARK_GRAY);
 
@@ -265,7 +265,7 @@ public class COTVisualizer {
             public void mousePressed(MouseEvent e) {
                 if (!selected.equals("")) {
                     mousePT = e.getPoint();
-                    ChartsPanel.drawgraph = true;
+                    COTPanel.drawgraph = true;
                     OscillatorPanel.showOscillator = true;
                     myframe.repaint();
                 }
@@ -275,18 +275,18 @@ public class COTVisualizer {
         panelpaint.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent arg0) {
-                if ((!selected.equals("")) && (arg0.getX() < ChartsPanel.width - ChartsPanel.space_right)) {
+                if ((!selected.equals("")) && (arg0.getX() < COTPanel.width - COTPanel.space_right)) {
                     dx = arg0.getX() - mousePT.x;
                     dy = arg0.getY() - mousePT.y;
-                    ChartsPanel.drawgraph = true;
+                    COTPanel.drawgraph = true;
                     OscillatorPanel.showOscillator = true;
                     myframe.repaint();
                 }
 
-                if ((!selected.equals("")) && (arg0.getX() > ChartsPanel.width - ChartsPanel.space_right)
-                        && (arg0.getY() < ChartsPanel.height - ChartsPanel.space_buttom)) {
+                if ((!selected.equals("")) && (arg0.getX() > COTPanel.width - COTPanel.space_right)
+                        && (arg0.getY() < COTPanel.height - COTPanel.space_buttom)) {
                     dy = arg0.getY() - mousePT.y;
-                    ChartsPanel.drawgraph = true;
+                    COTPanel.drawgraph = true;
                     OscillatorPanel.showOscillator = true;
                     myframe.repaint();
                 }
@@ -301,7 +301,7 @@ public class COTVisualizer {
 
                 if (!selected.equals("") && (tablesFolder.isDirectory())) {
 
-                    ChartsPanel.drawgraph = true;
+                    COTPanel.drawgraph = true;
                     OscillatorPanel.showOscillator = true;
                     myframe.repaint();
                 }

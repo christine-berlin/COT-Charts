@@ -51,30 +51,30 @@ public class OscillatorPanel extends JPanel{
 
         if(showOscillator){
             g.setColor(Color.LIGHT_GRAY);
-            g.drawLine(0, getHeight()/2, getWidth()-ChartsPanel.space_right, getHeight()/2);
-            g.drawLine(0, getHeight()/2-25, getWidth()-ChartsPanel.space_right, getHeight()/2-25);
-            g.drawLine(0, getHeight()/2-50, getWidth()-ChartsPanel.space_right, getHeight()/2-50);
-            g.drawLine(0, getHeight()/2+25, getWidth()-ChartsPanel.space_right, getHeight()/2+25);
-            g.drawLine(0, getHeight()/2+50, getWidth()-ChartsPanel.space_right, getHeight()/2+50);
+            g.drawLine(0, getHeight()/2, getWidth()-COTPanel.space_right, getHeight()/2);
+            g.drawLine(0, getHeight()/2-25, getWidth()-COTPanel.space_right, getHeight()/2-25);
+            g.drawLine(0, getHeight()/2-50, getWidth()-COTPanel.space_right, getHeight()/2-50);
+            g.drawLine(0, getHeight()/2+25, getWidth()-COTPanel.space_right, getHeight()/2+25);
+            g.drawLine(0, getHeight()/2+50, getWidth()-COTPanel.space_right, getHeight()/2+50);
 
             g.setColor(Color.GREEN);
-            g.drawLine(getWidth()-ChartsPanel.space_right, getHeight()/2, getWidth()-ChartsPanel.space_right+5, getHeight()/2);
-            g.drawLine(getWidth()-ChartsPanel.space_right, getHeight()/2-25, getWidth()-ChartsPanel.space_right+5, getHeight()/2-25);
-            g.drawLine(getWidth()-ChartsPanel.space_right, getHeight()/2-50, getWidth()-ChartsPanel.space_right+5, getHeight()/2-50);
-            g.drawLine(getWidth()-ChartsPanel.space_right, getHeight()/2+25, getWidth()-ChartsPanel.space_right+5, getHeight()/2+25);
-            g.drawLine(getWidth()-ChartsPanel.space_right, getHeight()/2+50, getWidth()-ChartsPanel.space_right+5, getHeight()/2+50);
+            g.drawLine(getWidth()-COTPanel.space_right, getHeight()/2, getWidth()-COTPanel.space_right+5, getHeight()/2);
+            g.drawLine(getWidth()-COTPanel.space_right, getHeight()/2-25, getWidth()-COTPanel.space_right+5, getHeight()/2-25);
+            g.drawLine(getWidth()-COTPanel.space_right, getHeight()/2-50, getWidth()-COTPanel.space_right+5, getHeight()/2-50);
+            g.drawLine(getWidth()-COTPanel.space_right, getHeight()/2+25, getWidth()-COTPanel.space_right+5, getHeight()/2+25);
+            g.drawLine(getWidth()-COTPanel.space_right, getHeight()/2+50, getWidth()-COTPanel.space_right+5, getHeight()/2+50);
             g.setFont(font_small);
-            g.drawString("0",getWidth()-ChartsPanel.space_right+10 , getHeight()/2+5+50);
-            g.drawString("25",getWidth()-ChartsPanel.space_right+10 , getHeight()/2+5+25);
-            g.drawString("50",getWidth()-ChartsPanel.space_right+10 , getHeight()/2+5);
-            g.drawString("75",getWidth()-ChartsPanel.space_right+10 , getHeight()/2+5-25);
-            g.drawString("100",getWidth()-ChartsPanel.space_right+10 , getHeight()/2+5-50);
+            g.drawString("0",getWidth()-COTPanel.space_right+10 , getHeight()/2+5+50);
+            g.drawString("25",getWidth()-COTPanel.space_right+10 , getHeight()/2+5+25);
+            g.drawString("50",getWidth()-COTPanel.space_right+10 , getHeight()/2+5);
+            g.drawString("75",getWidth()-COTPanel.space_right+10 , getHeight()/2+5-25);
+            g.drawString("100",getWidth()-COTPanel.space_right+10 , getHeight()/2+5-50);
 
             g.setColor(Color.GREEN);
-            int x= getWidth()-ChartsPanel.space_right+COTVisualizer.dx;
+            int x= getWidth()-COTPanel.space_right+COTVisualizer.dx;
 
             for(int j=0;j<COTVisualizer.oscillator.length-1;j++){
-                if(x-j*5 <=ChartsPanel.width-ChartsPanel.space_right){
+                if(x-j*5 <=COTPanel.width-COTPanel.space_right){
                     g.drawLine(x-j*5,
                             getHeight()/2+50-COTVisualizer.oscillator[j],
                             x-(j+1)*5,

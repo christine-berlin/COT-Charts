@@ -70,8 +70,8 @@ public class ExcelParser {
                             if (OS.startsWith("Windows")) path = folderOfTables + "\\" + name;
                             if (!OS.startsWith("Windows")) path = folderOfTables + "/" + name;
                             File f = new File(path);
-                            ChartsPanel.test = true;
-                            ChartsPanel.filename = name;
+                            COTPanel.test = true;
+                            COTPanel.filename = name;
                             COTVisualizer.myframe.repaint();
 
                             FileWriter tablefw = new FileWriter(f, true);

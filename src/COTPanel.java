@@ -9,12 +9,17 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
-
-public class ChartsPanel extends JPanel {
+/**
+ * Class <code>COTPanel</code> is the top panel. It is used to visualize the COT charts.
+ * 
+ * @author Christine Merkel
+ *
+ */
+public class COTPanel extends JPanel {
     public static int space_right = 80;
     public static int space_buttom = 20;
     public static int width, height;
-    public static String datum = "";
+    public static String date = "";
     static boolean drawgraph = false;
     public static boolean updating = false;
     public static boolean downloading = false;
@@ -25,7 +30,6 @@ public class ChartsPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
 
         height = getHeight();
         width = getWidth();
@@ -59,13 +63,11 @@ public class ChartsPanel extends JPanel {
         }
 
         if (creatingtables) {
-            //g.setColor(Color.GREEN);
             g.drawString("UPDATING PLEASE WAIT", 100, 100);
             g.drawString("Writing tables....", 100, 120);
         }
 
         if (test) {
-            //g.setColor(Color.GREEN);
             g.drawString("UPDATING PLEASE WAIT", 100, 100);
             g.drawString("Writing tables....", 100, 120);
             g.drawString("table "+filename, 100, 140);
@@ -73,7 +75,6 @@ public class ChartsPanel extends JPanel {
 
         // crosshair
         if ((COTVisualizer.drawcrosshair) && (drawgraph)) {
-
             g.setColor(Color.YELLOW);
             if (COTVisualizer.crosshairx > (width - space_right)) {
                 COTVisualizer.crosshairx = width - space_right;
@@ -81,21 +82,6 @@ public class ChartsPanel extends JPanel {
             g.drawLine(COTVisualizer.crosshairx, 0, COTVisualizer.crosshairx, COTVisualizer.panelpaint.getHeight());
             g.drawLine(0, COTVisualizer.crosshairy, COTVisualizer.panelpaint.getWidth() - space_right,
                     COTVisualizer.crosshairy);
-//            g.fillRect(COTVisualizer.crosshairx - 20, COTVisualizer.panelpaint.getHeight() - 20, 40, 20);
-//
-//            g.fillRect(COTVisualizer.panelpaint.getWidth() - space_right + 1, COTVisualizer.crosshairy - 10, 60, 20);
-//            g.setFont(font_small);
-
-//            g.setColor(Color.CYAN);
-//            int ywert = -(COTVisualizer.crosshairy - height / 2) * 1000;
-//            g.drawString(String.valueOf(ywert), COTVisualizer.panelpaint.getWidth() - space_right + 9,
-//                    COTVisualizer.crosshairy + 5);
-//
-//            int index_datum = (width - COTVisualizer.crosshairx - space_right) / 10;
-//
-//            datum = COTVisualizer.dates[index_datum];
-//
-//            g.drawString(datum, COTVisualizer.crosshairx - 15, height - 5);
         }
 
         // DRAW GRID
@@ -134,8 +120,6 @@ public class ChartsPanel extends JPanel {
             while ((start_x > COTVisualizer.delta_x) && (pos < COTVisualizer.commercials.length - 1)) {
                 if (start_x <= width - space_right) {
                     // DRAW COMMERCIALS
-
-
                     g.setColor(Color.RED);
                     g.drawLine(start_x - COTVisualizer.delta_x,
                             height/2 - ((height-20)/2)* COTVisualizer.commercials[pos+1]/COTVisualizer.Max,
@@ -145,7 +129,6 @@ public class ChartsPanel extends JPanel {
 
                     // DRAW LARGETRADERS
                     g.setColor(Color.BLUE);
-
                     g.drawLine(start_x - COTVisualizer.delta_x,
                             height/2 - ((height-20)/2)* COTVisualizer.largetraders[pos+1]/COTVisualizer.Max,
                             start_x,
@@ -154,7 +137,6 @@ public class ChartsPanel extends JPanel {
 
                     // DRAW SMALLTRADERS
                     g.setColor(Color.GREEN);
-
                     g.drawLine(start_x - COTVisualizer.delta_x,
                             height/2 - ((height-20)/2)* COTVisualizer.smalltraders[pos+1]/COTVisualizer.Max,
                             start_x,
@@ -169,8 +151,8 @@ public class ChartsPanel extends JPanel {
                         g.drawLine(start_x, height, start_x, height - 10);
                     }
                 }
+                
                 start_x -= COTVisualizer.delta_x;
-
                 pos += 1;
             }
 
