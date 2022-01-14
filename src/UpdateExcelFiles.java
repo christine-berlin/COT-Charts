@@ -34,25 +34,32 @@ import org.apache.poi.ss.usermodel.Row;
  *
  */
 public class UpdateExcelFiles {
-	
-    private File folder_futures;
+	/** Folder that contains the unzipped excel files. */
+    private File folderOfExcelFiles;
+    
+    /** List that contains the COT excel files. */
     private File[] excelFiles;
-    private String folder = "";
+    
+    /** Folder that contains the table files. */ 
+    private String folderOfTables = "";
+    
+    /** Year the previously downloaded COT excel files were published. */
     private int lastYear;
     
+    /** Date the previously downloaded COT excel files were published. */
     private String lastDate;
     
-    
+    /** Date the currently downloaded COT excel files were published. */
     private String currentDate;
     
-    /** HashMap that stores Future name and Abbreviation pairs */
+    /** HashMap that stores Future name and Abbreviation pairs. */
     private HashMap<String, String> nameAbbreviationPairs; 
     
     /** Contains the Abbreviations of the Future Names. The Abbreviations are used in the GUI. */
     private String[] futureNameAbbreviations; 
     
     /**
-     *  Initializes the Hashmap @nameAbbreviationPairs.
+     *  Initializes the HashMap nameAbbreviationPairs.
      */
     public void init() {
         initializeFutureNamesHashMap();
@@ -179,8 +186,8 @@ public class UpdateExcelFiles {
     		dir.mkdir();
     	}
 
-    	folder = dir.getPath();
-    	ExcelParser parser = new ExcelParser(folder, futureNameAbbreviations, excelFiles, nameAbbreviationPairs);
+    	folderOfTables = dir.getPath();
+    	ExcelParser parser = new ExcelParser(folderOfTables, futureNameAbbreviations, excelFiles, nameAbbreviationPairs);
     	parser.start();
 
         // currentdate_string
@@ -246,8 +253,8 @@ public class UpdateExcelFiles {
             }
         }
         unzipCOT();
-        folder_futures = new File("unzip");
-        excelFiles = folder_futures.listFiles();
+        folderOfExcelFiles = new File("unzip");
+        excelFiles = folderOfExcelFiles.listFiles();
 
         Arrays.sort(excelFiles);
     }

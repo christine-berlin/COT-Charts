@@ -45,36 +45,74 @@ public class COTVisualizer {
 	/** Frame of the GUI */
     public static JFrame gui;
     
-    /** Menubar in the top of the GUI */
+    /** MenuBar in the top of the GUI */
     public static JMenuBar tb;
     
+    /** List with the Future Name Abbreviations that can be selected in the ComboBox. */
     public static String[] comboBoxList;
-    public static String[] financials;
-    public static String[] commodities;
-    public static JSlider sliderx;
-    public static JSlider slidery;
-    public static JPanel panelpaint;
+    
+    /** The Panel for the visualization of the COT charts. */
+    public static JPanel cotPanel;
+    
+    /** The Panel for the visualization of the oscillator */
+    public static JPanel oscillatorPanel;
+    
+    /** The name of the selected Future in the CpmboBox. */
     public static String selected = "";
-    public static JPanel oszillator;
+    
+    /** List that contains all the dates of the COT excel files. */
     public static String[] dates;
+    
+    /** List that contains all the net long positions of the commercials. */
     public static Integer[] commercials;
+    
+    /** List that contains all the net long positions of the large traders. */
     public static Integer[] largetraders;
+    
+    /** List that contains all the net long positions of the small traders. */
     public static Integer[] smalltraders;
+    
+    /** List contains all the y-values of the oscillator. */ 
     public static Integer[] oscillator;
-    public static int crosshairx;
-    public static int crosshairy;
-    public static boolean drawcrosshair = false;
+    
+    /** X coordinate of the current position of the cross of the crosshair. */
+    public static int crosshairX;
+    
+    /** Y coordinate of the current position of the cross of the crosshair. */
+    public static int crosshairY;
+    
+    /** Show crosshair or not. */
+    public static boolean drawCrosshair = false;
+    
+    /** Show grid or not. */
     public static boolean grid = false;
-    public static JCheckBox grid_box;
-    public static JCheckBox crosshair_box;
-    public static int drag_x;
+    
+    /** Select grid. */
+    public static JCheckBox gridBox;
+    
+    /** Select crosshair. */
+    public static JCheckBox crosshairBox;
+    
+    /** Current position of the mouse cursor. */
     public static Point mousePT;
-    public static int dx = 0;
-    public static int dy = 0;
-    public static int delta_x = 5;
+    
+    /** X coordinate of the current mouse cursor position. */
+    public static int x = 0;
+    
+    /** Y coordinate of the current mouse cursor position. */
+    public static int y = 0;
+    
+    /** Update button. */
     public static JButton update;
+    
+    /** Instance of UpdateExcelFiles. */
     public static UpdateExcelFiles updateExcelFiles;
+    
+    /** The maximum net long positions of the commercials. */
     public static int Max;
+    
+    /** Constant that defines the size if the grid. */
+    final static int deltaX = 5;
 
     /**
      * Main entry point.
@@ -98,7 +136,6 @@ public class COTVisualizer {
         });
 
         addComponentsToPane(gui.getContentPane());
-
         gui.setJMenuBar(tb);
         gui.pack();
         gui.setVisible(true);
@@ -181,8 +218,8 @@ public class COTVisualizer {
                             t++;
                         }
 
-                        dx = 0;
-                        dy = 0;
+                        x = 0;
+                        y = 0;
                         OscillatorPanel.showOscillator = true;
                         COTPanel.showCOTChart = true;
                         gui.repaint();
@@ -200,9 +237,9 @@ public class COTVisualizer {
             }
         });
 
-        grid_box = new JCheckBox();
-        grid_box.setText("grid");
-        grid_box.addItemListener(new ItemListener() {
+        gridBox = new JCheckBox();
+        gridBox.setText("grid");
+        gridBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent arg0) {
                 grid = !grid;
@@ -214,13 +251,13 @@ public class COTVisualizer {
             }
         });
 
-        crosshair_box = new JCheckBox();
-        crosshair_box.setText("crosshair");
+        crosshairBox = new JCheckBox();
+        crosshairBox.setText("crosshair");
 
-        crosshair_box.addItemListener(new ItemListener() {
+        crosshairBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent arg0) {
-                drawcrosshair = !drawcrosshair;
+                drawCrosshair = !drawCrosshair;
                 if (!selected.equals("")) {
                     COTPanel.showCOTChart = true;
                     OscillatorPanel.showOscillator = true;
@@ -270,18 +307,18 @@ public class COTVisualizer {
         tb.add(label);
         tb.add(mycombobox);
         JLabel dummy = new JLabel("                                                                         ");
-        tb.add(grid_box);
-        tb.add(crosshair_box);
+        tb.add(gridBox);
+        tb.add(crosshairBox);
         tb.add(update);
         tb.add(dummy);
-        oszillator = new OscillatorPanel();
-        oszillator.setPreferredSize(new Dimension(gui.getWidth(), 150));
-        oszillator.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        panelpaint = new COTPanel();
-        panelpaint.setPreferredSize(new Dimension(gui.getWidth(), 500));
-        panelpaint.setBackground(Color.DARK_GRAY);
+        oscillatorPanel = new OscillatorPanel();
+        oscillatorPanel.setPreferredSize(new Dimension(gui.getWidth(), 150));
+        oscillatorPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        cotPanel = new COTPanel();
+        cotPanel.setPreferredSize(new Dimension(gui.getWidth(), 500));
+        cotPanel.setBackground(Color.DARK_GRAY);
 
-        panelpaint.addMouseListener(new MouseAdapter() {
+        cotPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (!selected.equals("")) {
@@ -293,12 +330,12 @@ public class COTVisualizer {
             }
         });
 
-        panelpaint.addMouseMotionListener(new MouseAdapter() {
+        cotPanel.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent arg0) {
                 if ((!selected.equals("")) && (arg0.getX() < COTPanel.width - COTPanel.space_right)) {
-                    dx = arg0.getX() - mousePT.x;
-                    dy = arg0.getY() - mousePT.y;
+                    x = arg0.getX() - mousePT.x;
+                    y = arg0.getY() - mousePT.y;
                     COTPanel.showCOTChart = true;
                     OscillatorPanel.showOscillator = true;
                     gui.repaint();
@@ -306,7 +343,7 @@ public class COTVisualizer {
 
                 if ((!selected.equals("")) && (arg0.getX() > COTPanel.width - COTPanel.space_right)
                         && (arg0.getY() < COTPanel.height - COTPanel.space_buttom)) {
-                    dy = arg0.getY() - mousePT.y;
+                    y = arg0.getY() - mousePT.y;
                     COTPanel.showCOTChart = true;
                     OscillatorPanel.showOscillator = true;
                     gui.repaint();
@@ -315,8 +352,8 @@ public class COTVisualizer {
 
             @Override
             public void mouseMoved(MouseEvent arg0) {
-                crosshairx = arg0.getX();
-                crosshairy = arg0.getY();
+                crosshairX = arg0.getX();
+                crosshairY = arg0.getY();
 
                 File tablesFolder = new File("tables");
 
@@ -330,7 +367,7 @@ public class COTVisualizer {
         });
 
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-        pane.add(panelpaint);
-        pane.add(oszillator);
+        pane.add(cotPanel);
+        pane.add(oscillatorPanel);
     }
 }

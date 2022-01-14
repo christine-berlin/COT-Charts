@@ -71,7 +71,7 @@ public class OscillatorPanel extends JPanel{
             g.drawString("100",getWidth()-COTPanel.space_right+10 , getHeight()/2+5-50);
 
             g.setColor(Color.GREEN);
-            int x= getWidth()-COTPanel.space_right+COTVisualizer.dx;
+            int x= getWidth()-COTPanel.space_right+COTVisualizer.x;
 
             for(int j=0;j<COTVisualizer.oscillator.length-1;j++){
                 if(x-j*5 <=COTPanel.width-COTPanel.space_right){

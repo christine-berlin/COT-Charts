@@ -20,14 +20,14 @@ public class ExcelParser {
 	/** Contains the Abbreviations of the Future Names. The Abbreviatiosn are used in the GUI. */
     String[] futureNameAbbreviations;
     
-    /** list that contains the COT excel files */
+    /** List that contains the COT excel files. */
     File[] excelFiles;
     
     /** The folder that contains the table files.*/
     String folderOfTables;
     
-    /** HashMap that stores Future name and Abbreviation pairs */
-    HashMap<String, String> ńameAbbreviationPairs;
+    /** HashMap that stores Future name and Abbreviation pairs. */
+    HashMap<String, String> nameAbbreviationPairs;
     
     /**
      * Constructor
@@ -41,7 +41,7 @@ public class ExcelParser {
         this.folderOfTables = folderOfTables;
         this.futureNameAbbreviations = futureNameAbbreviations;
         this.excelFiles = excelFiles;
-        this.ńameAbbreviationPairs = nameAbbreviationPairs;
+        this.nameAbbreviationPairs = nameAbbreviationPairs;
     }
 
     /**
@@ -61,10 +61,10 @@ public class ExcelParser {
                     String celltext0 = cell0.getStringCellValue();
                     String line = "";
 
-                    for (int k = 0; k <= ńameAbbreviationPairs.size()-1; k++) {
+                    for (int k = 0; k <= nameAbbreviationPairs.size()-1; k++) {
                         String name = futureNameAbbreviations[k];
 
-                        if (celltext0.contains(ńameAbbreviationPairs.get(name)))
+                        if (celltext0.contains(nameAbbreviationPairs.get(name)))
                         {
                             String path = "";
                             String OS = System.getProperty("os.name");
