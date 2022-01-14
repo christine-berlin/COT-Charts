@@ -12,6 +12,7 @@ import java.util.HashMap;
  * Class <code>COTExcelParser</code> parses the Excel files from the COT report and extracts
  * the date, the net long of the commercials, large traders, and small traders, for every Future
  * and writes this numbers as tables to files. The files are in the folder /tables.
+ * 
  * @author Christine Merkel
  *
  */
@@ -44,7 +45,7 @@ public class ExcelParser {
     }
 
     /**
-     * Does the excel file parsing.
+     * Does the excel file parsing and writing table files.
      */
     public void start(){
         try {
@@ -70,9 +71,9 @@ public class ExcelParser {
                             if (OS.startsWith("Windows")) path = folderOfTables + "\\" + name;
                             if (!OS.startsWith("Windows")) path = folderOfTables + "/" + name;
                             File f = new File(path);
-                            COTPanel.test = true;
-                            COTPanel.filename = name;
-                            COTVisualizer.myframe.repaint();
+                            COTPanel.showUpdatngMessage = true;
+                            COTPanel.nameOfTableFile = name;
+                            COTVisualizer.gui.repaint();
 
                             FileWriter tablefw = new FileWriter(f, true);
                             // Date

@@ -35,13 +35,24 @@ import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 
 import java.awt.Cursor;
-
+/**
+ * Class <code>COTVisualizes</code> defines the GUI of the Application.
+ * 
+ * @author Christine Merkel
+ *
+ */
 public class COTVisualizer {
-    public static JFrame myframe;
+	/** Frame of the GUI */
+    public static JFrame gui;
+    
+    /** Menubar in the top of the GUI */
     public static JMenuBar tb;
+    
     public static String[] comboBoxList;
-    public static String[] financials, commodities;
-    public static JSlider sliderx, slidery;
+    public static String[] financials;
+    public static String[] commodities;
+    public static JSlider sliderx;
+    public static JSlider slidery;
     public static JPanel panelpaint;
     public static String selected = "";
     public static JPanel oszillator;
@@ -50,49 +61,59 @@ public class COTVisualizer {
     public static Integer[] largetraders;
     public static Integer[] smalltraders;
     public static Integer[] oscillator;
-    public static int crosshairx, crosshairy;
+    public static int crosshairx;
+    public static int crosshairy;
     public static boolean drawcrosshair = false;
     public static boolean grid = false;
-    public static JCheckBox grid_box, crosshair_box;// plus, minus;
+    public static JCheckBox grid_box;
+    public static JCheckBox crosshair_box;
     public static int drag_x;
     public static Point mousePT;
     public static int dx = 0;
     public static int dy = 0;
     public static int delta_x = 5;
     public static JButton update;
-    public static UpdateExcelFiles up;
+    public static UpdateExcelFiles updateExcelFiles;
     public static int Max;
 
+    /**
+     * Main entry point.
+     */
     public static void main(String[] args) {
-        up = new UpdateExcelFiles();
-        up.init();
-        myframe = new JFrame("COTViz");
-        myframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        updateExcelFiles = new UpdateExcelFiles();
+        updateExcelFiles.init();
+        gui = new JFrame("COTViz");
+        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // repaint after resize
-        myframe.addComponentListener(new ComponentAdapter() {
+        gui.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 if (!selected.equals("")) {
-                    COTPanel.drawgraph = true;
+                    COTPanel.showCOTChart = true;
                     OscillatorPanel.showOscillator = true;
-                    myframe.repaint();
+                    gui.repaint();
                 }
             }
         });
 
-        addComponentsToPane(myframe.getContentPane());
+        addComponentsToPane(gui.getContentPane());
 
-        myframe.setJMenuBar(tb);
-        myframe.pack();
-        myframe.setVisible(true);
-        myframe.repaint();
+        gui.setJMenuBar(tb);
+        gui.pack();
+        gui.setVisible(true);
+        gui.repaint();
     }
 
+    /**
+     * Defines the GUI components.
+     * 
+     * @param pane  Container of the GUI
+     */
     public static void addComponentsToPane(Container pane) {
         tb = new JMenuBar();
         JLabel label = new JLabel("Select:  ");
-        comboBoxList = up.getFuturesList();
+        comboBoxList = updateExcelFiles.getFuturesList();
         JComboBox<String> mycombobox = new JComboBox<String>(comboBoxList);
         mycombobox.setMaximumSize(new Dimension(300, 30));
 
@@ -163,8 +184,8 @@ public class COTVisualizer {
                         dx = 0;
                         dy = 0;
                         OscillatorPanel.showOscillator = true;
-                        COTPanel.drawgraph = true;
-                        myframe.repaint();
+                        COTPanel.showCOTChart = true;
+                        gui.repaint();
 
                     }
                 }
@@ -186,10 +207,10 @@ public class COTVisualizer {
             public void itemStateChanged(ItemEvent arg0) {
                 grid = !grid;
                 if (!selected.equals("")) {
-                    COTPanel.drawgraph = true;
+                    COTPanel.showCOTChart = true;
                     OscillatorPanel.showOscillator = true;
                 }
-                myframe.repaint();
+                gui.repaint();
             }
         });
 
@@ -201,10 +222,10 @@ public class COTVisualizer {
             public void itemStateChanged(ItemEvent arg0) {
                 drawcrosshair = !drawcrosshair;
                 if (!selected.equals("")) {
-                    COTPanel.drawgraph = true;
+                    COTPanel.showCOTChart = true;
                     OscillatorPanel.showOscillator = true;
                 }
-                myframe.repaint();
+                gui.repaint();
             }
         });
 
@@ -213,32 +234,32 @@ public class COTVisualizer {
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                COTPanel.updating = true;
+                COTPanel.updatingExcelFiles = true;
 
                 //show updating message
-                myframe.repaint();
+                gui.repaint();
 
                 //update has to run concurrent to showing the update message
                 new Thread(new Runnable() {
                     @Override public void run() {
-                        up.readhead();
+                        updateExcelFiles.readhead();
 
-                        COTPanel.downloading = true;
-                        myframe.repaint();
-                        up.downloadCOT();
+                        COTPanel.downloadingExcelFiles = true;
+                        gui.repaint();
+                        updateExcelFiles.downloadCOT();
 
 
-                        COTPanel.creatingtables = true;
-                        COTPanel.downloading = false;
-                        myframe.repaint();
-                        up.update();
+                        COTPanel.writingTableFiles = true;
+                        COTPanel.downloadingExcelFiles = false;
+                        gui.repaint();
+                        updateExcelFiles.update();
 
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override public void run() {
-                                COTPanel.updating = false;
-                                COTPanel.creatingtables = false;
-                                COTPanel.test = false;
-                                myframe.repaint();
+                                COTPanel.updatingExcelFiles = false;
+                                COTPanel.writingTableFiles = false;
+                                COTPanel.showUpdatngMessage = false;
+                                gui.repaint();
                             }
                         });
                     }
@@ -254,10 +275,10 @@ public class COTVisualizer {
         tb.add(update);
         tb.add(dummy);
         oszillator = new OscillatorPanel();
-        oszillator.setPreferredSize(new Dimension(myframe.getWidth(), 150));
+        oszillator.setPreferredSize(new Dimension(gui.getWidth(), 150));
         oszillator.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         panelpaint = new COTPanel();
-        panelpaint.setPreferredSize(new Dimension(myframe.getWidth(), 500));
+        panelpaint.setPreferredSize(new Dimension(gui.getWidth(), 500));
         panelpaint.setBackground(Color.DARK_GRAY);
 
         panelpaint.addMouseListener(new MouseAdapter() {
@@ -265,9 +286,9 @@ public class COTVisualizer {
             public void mousePressed(MouseEvent e) {
                 if (!selected.equals("")) {
                     mousePT = e.getPoint();
-                    COTPanel.drawgraph = true;
+                    COTPanel.showCOTChart = true;
                     OscillatorPanel.showOscillator = true;
-                    myframe.repaint();
+                    gui.repaint();
                 }
             }
         });
@@ -278,17 +299,17 @@ public class COTVisualizer {
                 if ((!selected.equals("")) && (arg0.getX() < COTPanel.width - COTPanel.space_right)) {
                     dx = arg0.getX() - mousePT.x;
                     dy = arg0.getY() - mousePT.y;
-                    COTPanel.drawgraph = true;
+                    COTPanel.showCOTChart = true;
                     OscillatorPanel.showOscillator = true;
-                    myframe.repaint();
+                    gui.repaint();
                 }
 
                 if ((!selected.equals("")) && (arg0.getX() > COTPanel.width - COTPanel.space_right)
                         && (arg0.getY() < COTPanel.height - COTPanel.space_buttom)) {
                     dy = arg0.getY() - mousePT.y;
-                    COTPanel.drawgraph = true;
+                    COTPanel.showCOTChart = true;
                     OscillatorPanel.showOscillator = true;
-                    myframe.repaint();
+                    gui.repaint();
                 }
             }
 
@@ -301,9 +322,9 @@ public class COTVisualizer {
 
                 if (!selected.equals("") && (tablesFolder.isDirectory())) {
 
-                    COTPanel.drawgraph = true;
+                    COTPanel.showCOTChart = true;
                     OscillatorPanel.showOscillator = true;
-                    myframe.repaint();
+                    gui.repaint();
                 }
             }
         });

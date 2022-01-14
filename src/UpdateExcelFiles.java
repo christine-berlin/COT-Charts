@@ -25,40 +25,51 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+/**
+ * Class <code>UpdateExcelFiles</code>  checks whether the Excel files are up to date, if not, it 
+ * downloads the missing Excel files as a zipfile and unzips them.
+ *  
+ * 
+ * @author Christine Merkel
+ *
+ */
 public class UpdateExcelFiles {
     private File folder_futures;
     private File[] excelFiles;
     private String folder = "";
-    private int last_year;
-    private String lastdate_string, currentdate_string;
-    private HashMap<String, String> futureNames = new HashMap<String, String>();
-    private String[] futureNameAbbreviations =  new String[] { "LEANHOGS", "FEEDERCATTLE", "LIVECATTLE", "LUMBER", "SUGARNo11", "COFFEE",
-            "ORANGEJUICE", "COTTON", "COCOA", "SOYBEANOIL", "SOYBEANMEAL", "SOYBEANS", "OATS", "RICE", "WHEAT",
-            "CORN", "ETHANOL", "NATURALGAS", "HEATINGOIL", "GASOLINE", "WTI", "COPPER", "PALLADIUM", "GOLD",
-            "SILVER", "PLATINUM", "S&P", "DJIA", "NASDAQ", "RUSSELL2000MINI", "NIKKEI", "USTREASURYBONDS",
-            "2YEARUSTREASURYNOTES", "5YEARUSTREASURYNOTES", "10YEARUSTREASURYNOTES", "30DAYFEDERALFUNDS",
-            "AUSTRALIANDOLLAR", "BRAZILIANREAL", "BRITISHPOUNDSTERLING", "EUROFX", "JAPANESEYEN", "CANADIANDOLLAR",
-            "MEXICANPESO", "NEWZEALANDDOLLAR", "RUSSIANRUBLE", "BITCOIN", "SWISSFRANC" };
-
-
+    private int lastYear;
+    private String lastDate;
+    private String currentDate;
+    private HashMap<String, String> futureNames; 
+    private String[] futureNameAbbreviations; 
+    
+    /**
+     *  Initializes the Hashmap futureNames.
+     */
     public void init() {
-        makehash();
+        initializeFutureNamesHashMap();
+        initializeFutureNameAbbreviations();
     }
 
 
-
+    /*
+     * Updates the Excel files if necessary. 
+     */
     public void update() {
         if (checkupdate()) {
-            writefuturefiles();
+            writeTables();
             writehead();
         }
     }
 
+    /**
+     * Writes the date the last downloaded COT report was published in a file named 'head'. 
+     */
     private void writehead() {
         File headfile = new File("head");
         try {
             FileWriter fw = new FileWriter(headfile, false);
-            fw.write(currentdate_string);
+            fw.write(currentDate);
             fw.close();
         }
 
@@ -67,18 +78,21 @@ public class UpdateExcelFiles {
         }
     }
 
+    /**
+     *  Reads the head file if it exists.
+     */
     public void readhead() {
         File file = new File("head");
         if (file.exists()) {
             try {
                 BufferedReader br = new BufferedReader(new FileReader(file));
-                lastdate_string = br.readLine();
-                StringTokenizer st = new StringTokenizer(lastdate_string);
+                lastDate = br.readLine();
+                StringTokenizer st = new StringTokenizer(lastDate);
                 int yy = Integer.valueOf(st.nextToken().substring(6, 8));
                 if (yy >= 0)
-                    last_year = 2000 + yy;
+                    lastYear = 2000 + yy;
                 if (yy < 0)
-                    last_year = 1900 + yy;
+                    lastYear = 1900 + yy;
 
                 br.close();
             }
@@ -89,13 +103,17 @@ public class UpdateExcelFiles {
         }
 
         if (!file.exists()) {
-            last_year = 1986;
+            lastYear = 1986;
         }
     }
 
-
+    /**
+     * Checks if an update of the excel files is necessary.
+     * 
+     * @return update is necessary or not
+     * 
+     */
     private boolean checkupdate() {
-        //check is there anything to update
         File headfile = new File("head");
 
         InputStream fs;
@@ -121,7 +139,7 @@ public class UpdateExcelFiles {
 
             boolean check = false;
             if (headfile.exists()) {
-                Date lastdate = df2.parse(lastdate_string);
+                Date lastdate = df2.parse(lastDate);
                 if (date.compareTo(lastdate) <= 0) check = false;
                 if (date.compareTo(lastdate) > 0) {
                     check = true;
@@ -143,36 +161,19 @@ public class UpdateExcelFiles {
         return false;
     }
 
-    private void writefuturefiles() {
-        //try {
-            File headfile = new File("head");
-            File dir = new File("tables");
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
+    /**
+     * Creates the table files.
+     */
+    private void writeTables() {
+    	File headfile = new File("head");
+    	File dir = new File("tables");
+    	if (!dir.exists()) {
+    		dir.mkdir();
+    	}
 
-            folder = dir.getPath();
-            ExcelParser parser = new ExcelParser(folder, futureNameAbbreviations, excelFiles, futureNames);
-            parser.start();
-
-            /*Thread t1 = new Thread(new parseFiles(folder, futureslist, 0, 9, list_of_files, hash));
-            t1.start();
-            Thread t2 = new Thread(new parseFiles(folder, futureslist, 10, 19, list_of_files, hash));
-            t2.start();
-            Thread t3 = new Thread(new parseFiles(folder, futureslist, 20, 29, list_of_files, hash));
-            t3.start();
-            Thread t4 = new Thread(new parseFiles(folder, futureslist, 30, 39, list_of_files, hash));
-            t4.start();
-            Thread t5 = new Thread(new parseFiles(folder, futureslist, 40, 46, list_of_files, hash));
-            t5.start();
-
-            t1.join();
-            t2.join();
-            t3.join();
-            t4.join();
-            t5.join();*/
-        //}
-        //catch (InterruptedException e1) {e1.printStackTrace();}
+    	folder = dir.getPath();
+    	ExcelParser parser = new ExcelParser(folder, futureNameAbbreviations, excelFiles, futureNames);
+    	parser.start();
 
         // currentdate_string
         InputStream is;
@@ -186,7 +187,7 @@ public class UpdateExcelFiles {
             Date date = new Date();
             date = cell2.getDateCellValue();
             DateFormat df2 = new SimpleDateFormat("dd/MM/yy");
-            currentdate_string = df2.format(date);
+            currentDate = df2.format(date);
         }
         catch (IOException e) {e.printStackTrace();}
 
@@ -200,11 +201,14 @@ public class UpdateExcelFiles {
         fileunzip.delete();
     }
 
+    /**
+     *  Downloads the COT excel files.
+     */
     public void downloadCOT() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         File dir = new File("cot-excel");
         dir.mkdir();
-        for (int i = last_year; i <= 2003; i++) {
+        for (int i = lastYear; i <= 2003; i++) {
             try (BufferedInputStream inputStream = new BufferedInputStream(
                     new URL("https://www.cftc.gov/sites/default/files/files/dea/history/deafut_xls_" + i + ".zip")
                             .openStream());
@@ -218,7 +222,7 @@ public class UpdateExcelFiles {
             catch (IOException e) { }
         }
 
-        for (int i = last_year; i <= year; i++) {
+        for (int i = lastYear; i <= year; i++) {
             try (BufferedInputStream inputStream = new BufferedInputStream(
                     new URL("https://www.cftc.gov/sites/default/files/files/dea/history/dea_fut_xls_" + i + ".zip")
                             .openStream());
@@ -240,6 +244,9 @@ public class UpdateExcelFiles {
         Arrays.sort(excelFiles);
     }
 
+    /**
+     * Iterates through all the zipded excel files and passes them to method unzip.
+     */
     private void unzipCOT() {
         File dir = new File("cot-excel");
         File[] zipfiles = dir.listFiles();
@@ -267,6 +274,14 @@ public class UpdateExcelFiles {
         dir.delete();
     }
 
+    /**
+     * Unzips zipped excel files.
+     * 
+     * @param zipFilePath   path of the zipped excel file   
+     * @param destDir       destination path of the unzipped excel file
+     * @param prefix        destination file name
+     * @throws IOException  Exception thrown in case of error
+     */
     private void unzip(String zipFilePath, String destDir, String prefix) throws IOException {
         FileInputStream fis;
         byte[] buffer = new byte[1024];
@@ -276,7 +291,7 @@ public class UpdateExcelFiles {
 
         while (ze != null) {
             String fileName = ze.getName();
-            File newFile = new File(destDir + File.separator + prefix + ".xls"/*fileName*/);
+            File newFile = new File(destDir + File.separator + prefix + ".xls");
             new File(newFile.getParent()).mkdirs();
             FileOutputStream fos = new FileOutputStream(newFile);
             int len;
@@ -295,11 +310,33 @@ public class UpdateExcelFiles {
         fis.close();
     }
 
+    /**
+     * Returns an Array of Future Name Abbreviations.
+     * @return
+     */
     public String[] getFuturesList() {
         return futureNameAbbreviations;
     }
 
-    private void makehash() {
+    /**
+     * Initializes the List futureNameAbbreviations.
+     */
+    public void initializeFutureNameAbbreviations() {
+    	futureNameAbbreviations =  new String[] { "LEANHOGS", "FEEDERCATTLE", "LIVECATTLE", "LUMBER", "SUGARNo11", "COFFEE",
+        "ORANGEJUICE", "COTTON", "COCOA", "SOYBEANOIL", "SOYBEANMEAL", "SOYBEANS", "OATS", "RICE", "WHEAT",
+        "CORN", "ETHANOL", "NATURALGAS", "HEATINGOIL", "GASOLINE", "WTI", "COPPER", "PALLADIUM", "GOLD",
+        "SILVER", "PLATINUM", "S&P", "DJIA", "NASDAQ", "RUSSELL2000MINI", "NIKKEI", "USTREASURYBONDS",
+        "2YEARUSTREASURYNOTES", "5YEARUSTREASURYNOTES", "10YEARUSTREASURYNOTES", "30DAYFEDERALFUNDS",
+        "AUSTRALIANDOLLAR", "BRAZILIANREAL", "BRITISHPOUNDSTERLING", "EUROFX", "JAPANESEYEN", "CANADIANDOLLAR",
+        "MEXICANPESO", "NEWZEALANDDOLLAR", "RUSSIANRUBLE", "BITCOIN", "SWISSFRANC" };
+
+    }
+    
+    /**
+     * Initializes the HashMap futureNames.
+     */
+    private void initializeFutureNamesHashMap() {
+    	futureNames = new HashMap<String, String>();
         futureNames.put("LEANHOGS", "LEAN HOGS - CHICAGO MERCANTILE EXCHANGE");
         futureNames.put("FEEDERCATTLE", "FEEDER CATTLE - CHICAGO MERCANTILE EXCHANGE");
         futureNames.put("LIVECATTLE", "LIVE CATTLE - CHICAGO MERCANTILE EXCHANGE");
