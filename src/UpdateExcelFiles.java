@@ -34,17 +34,25 @@ import org.apache.poi.ss.usermodel.Row;
  *
  */
 public class UpdateExcelFiles {
+	
     private File folder_futures;
     private File[] excelFiles;
     private String folder = "";
     private int lastYear;
+    
     private String lastDate;
+    
+    
     private String currentDate;
-    private HashMap<String, String> futureNames; 
+    
+    /** HashMap that stores Future name and Abbreviation pairs */
+    private HashMap<String, String> nameAbbreviationPairs; 
+    
+    /** Contains the Abbreviations of the Future Names. The Abbreviations are used in the GUI. */
     private String[] futureNameAbbreviations; 
     
     /**
-     *  Initializes the Hashmap futureNames.
+     *  Initializes the Hashmap @nameAbbreviationPairs.
      */
     public void init() {
         initializeFutureNamesHashMap();
@@ -63,7 +71,7 @@ public class UpdateExcelFiles {
     }
 
     /**
-     * Writes the date the last downloaded COT report was published in a file named 'head'. 
+     * Writes the date the last downloaded COT report was published to a file named 'head'. 
      */
     private void writehead() {
         File headfile = new File("head");
@@ -172,7 +180,7 @@ public class UpdateExcelFiles {
     	}
 
     	folder = dir.getPath();
-    	ExcelParser parser = new ExcelParser(folder, futureNameAbbreviations, excelFiles, futureNames);
+    	ExcelParser parser = new ExcelParser(folder, futureNameAbbreviations, excelFiles, nameAbbreviationPairs);
     	parser.start();
 
         // currentdate_string
@@ -336,53 +344,53 @@ public class UpdateExcelFiles {
      * Initializes the HashMap futureNames.
      */
     private void initializeFutureNamesHashMap() {
-    	futureNames = new HashMap<String, String>();
-        futureNames.put("LEANHOGS", "LEAN HOGS - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("FEEDERCATTLE", "FEEDER CATTLE - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("LIVECATTLE", "LIVE CATTLE - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("LUMBER", "RANDOM LENGTH LUMBER - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("SUGARNo11", "SUGAR NO. 11 - ICE FUTURES U.S.");
-        futureNames.put("COFFEE", "COFFEE C - ICE FUTURES U.S.");
-        futureNames.put("ORANGEJUICE", "FRZN CONCENTRATED ORANGE JUICE - ICE FUTURES U.S.");
-        futureNames.put("COTTON", "COTTON NO. 2 - ICE FUTURES U.S.");
-        futureNames.put("COCOA", "COCOA - ICE FUTURES U.S.");
-        futureNames.put("SOYBEANOIL", "SOYBEAN OIL - CHICAGO BOARD OF TRADE");
-        futureNames.put("SOYBEANMEAL", "SOYBEAN MEAL - CHICAGO BOARD OF TRADE");
-        futureNames.put("SOYBEANS", "SOYBEANS - CHICAGO BOARD OF TRADE");
-        futureNames.put("OATS", "OATS - CHICAGO BOARD OF TRADE");
-        futureNames.put("RICE", "ROUGH RICE - CHICAGO BOARD OF TRADE");
-        futureNames.put("WHEAT", "WHEAT-SRW - CHICAGO BOARD OF TRADE");
-        futureNames.put("CORN", "CORN - CHICAGO BOARD OF TRADE");
-        futureNames.put("ETHANOL", "CBT ETHANOL - CHICAGO BOARD OF TRADE");
-        futureNames.put("NATURALGAS", "NATURAL GAS - NEW YORK MERCANTILE EXCHANGE");
-        futureNames.put("HEATINGOIL", "#2 HEATING OIL");
-        futureNames.put("GASOLINE", "GASOLINE BLENDSTOCK (RBOB) - NEW YORK MERCANTILE EXCHANGE");
-        futureNames.put("WTI", "CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE");
-        futureNames.put("COPPER", "COPPER-GRADE #1 - COMMODITY EXCHANGE INC.");
-        futureNames.put("PALLADIUM", "PALLADIUM - NEW YORK MERCANTILE EXCHANGE");
-        futureNames.put("GOLD", "GOLD - COMMODITY EXCHANGE INC.");
-        futureNames.put("SILVER", "SILVER - COMMODITY EXCHANGE INC.");
-        futureNames.put("PLATINUM", "PLATINUM - NEW YORK MERCANTILE EXCHANGE");
-        futureNames.put("S&P", "S&P 500 Consolidated - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("DJIA", "DJIA Consolidated - CHICAGO BOARD OF TRADE");
-        futureNames.put("NASDAQ", "NASDAQ-100 Consolidated - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("RUSSELL2000MINI", "RUSSELL 2000 MINI INDEX FUTURE - ICE FUTURES U.S.");
-        futureNames.put("NIKKEI", "NIKKEI STOCK AVERAGE - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("USTREASURYBONDS", "U.S. TREASURY BONDS - CHICAGO BOARD OF TRADE");
-        futureNames.put("2YEARUSTREASURYNOTES", "2-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
-        futureNames.put("5YEARUSTREASURYNOTES", "5-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
-        futureNames.put("10YEARUSTREASURYNOTES", "10-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
-        futureNames.put("30DAYFEDERALFUNDS", "30-DAY FEDERAL FUNDS - CHICAGO BOARD OF TRADE");
-        futureNames.put("AUSTRALIANDOLLAR", "AUSTRALIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("BRAZILIANREAL", "BRAZILIAN REAL - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("BRITISHPOUNDSTERLING", "BRITISH POUND STERLING - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("EUROFX", "EURO FX - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("JAPANESEYEN", "JAPANESE YEN - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("CANADIANDOLLAR", "CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("MEXICANPESO", "MEXICAN PESO - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("NEWZEALANDDOLLAR", "NEW ZEALAND DOLLAR - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("RUSSIANRUBLE", "RUSSIAN RUBLE - CHICAGO MERCANTILE EXCHANGE");
-        futureNames.put("BITCOIN", "BITCOIN-USD - CBOE FUTURES EXCHANGE");
-        futureNames.put("SWISSFRANC", "SWISS FRANC - CHICAGO MERCANTILE EXCHANGE");
+    	nameAbbreviationPairs = new HashMap<String, String>();
+        nameAbbreviationPairs.put("LEANHOGS", "LEAN HOGS - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("FEEDERCATTLE", "FEEDER CATTLE - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("LIVECATTLE", "LIVE CATTLE - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("LUMBER", "RANDOM LENGTH LUMBER - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("SUGARNo11", "SUGAR NO. 11 - ICE FUTURES U.S.");
+        nameAbbreviationPairs.put("COFFEE", "COFFEE C - ICE FUTURES U.S.");
+        nameAbbreviationPairs.put("ORANGEJUICE", "FRZN CONCENTRATED ORANGE JUICE - ICE FUTURES U.S.");
+        nameAbbreviationPairs.put("COTTON", "COTTON NO. 2 - ICE FUTURES U.S.");
+        nameAbbreviationPairs.put("COCOA", "COCOA - ICE FUTURES U.S.");
+        nameAbbreviationPairs.put("SOYBEANOIL", "SOYBEAN OIL - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("SOYBEANMEAL", "SOYBEAN MEAL - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("SOYBEANS", "SOYBEANS - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("OATS", "OATS - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("RICE", "ROUGH RICE - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("WHEAT", "WHEAT-SRW - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("CORN", "CORN - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("ETHANOL", "CBT ETHANOL - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("NATURALGAS", "NATURAL GAS - NEW YORK MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("HEATINGOIL", "#2 HEATING OIL");
+        nameAbbreviationPairs.put("GASOLINE", "GASOLINE BLENDSTOCK (RBOB) - NEW YORK MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("WTI", "CRUDE OIL, LIGHT SWEET - NEW YORK MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("COPPER", "COPPER-GRADE #1 - COMMODITY EXCHANGE INC.");
+        nameAbbreviationPairs.put("PALLADIUM", "PALLADIUM - NEW YORK MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("GOLD", "GOLD - COMMODITY EXCHANGE INC.");
+        nameAbbreviationPairs.put("SILVER", "SILVER - COMMODITY EXCHANGE INC.");
+        nameAbbreviationPairs.put("PLATINUM", "PLATINUM - NEW YORK MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("S&P", "S&P 500 Consolidated - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("DJIA", "DJIA Consolidated - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("NASDAQ", "NASDAQ-100 Consolidated - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("RUSSELL2000MINI", "RUSSELL 2000 MINI INDEX FUTURE - ICE FUTURES U.S.");
+        nameAbbreviationPairs.put("NIKKEI", "NIKKEI STOCK AVERAGE - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("USTREASURYBONDS", "U.S. TREASURY BONDS - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("2YEARUSTREASURYNOTES", "2-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("5YEARUSTREASURYNOTES", "5-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("10YEARUSTREASURYNOTES", "10-YEAR U.S. TREASURY NOTES - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("30DAYFEDERALFUNDS", "30-DAY FEDERAL FUNDS - CHICAGO BOARD OF TRADE");
+        nameAbbreviationPairs.put("AUSTRALIANDOLLAR", "AUSTRALIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("BRAZILIANREAL", "BRAZILIAN REAL - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("BRITISHPOUNDSTERLING", "BRITISH POUND STERLING - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("EUROFX", "EURO FX - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("JAPANESEYEN", "JAPANESE YEN - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("CANADIANDOLLAR", "CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("MEXICANPESO", "MEXICAN PESO - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("NEWZEALANDDOLLAR", "NEW ZEALAND DOLLAR - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("RUSSIANRUBLE", "RUSSIAN RUBLE - CHICAGO MERCANTILE EXCHANGE");
+        nameAbbreviationPairs.put("BITCOIN", "BITCOIN-USD - CBOE FUTURES EXCHANGE");
+        nameAbbreviationPairs.put("SWISSFRANC", "SWISS FRANC - CHICAGO MERCANTILE EXCHANGE");
     }
 }
