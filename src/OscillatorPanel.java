@@ -30,17 +30,17 @@ public class OscillatorPanel extends JPanel{
         Point point1 = new Point(getWidth()/2, 0);
         Point point2 = new Point(getWidth()/2, getHeight());
 
-        Color color1 = Color.LIGHT_GRAY;
-        Color color2 = Color.BLACK;
-        final GradientPaint gp = new GradientPaint(point1, color1, point2, color2, true);
-        final Graphics2D g2 = (Graphics2D) g;
-        g2.setPaint(gp);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        //Color color1 = Color.LIGHT_GRAY;
+        //Color color2 = Color.BLACK;
+        //final GradientPaint gp = new GradientPaint(point1, color1, point2, color2, true);
+        //final Graphics2D g2 = (Graphics2D) g;
+        //g2.setPaint(gp);
+        //g.fillRect(0, 0, getWidth(), getHeight());
 
-        g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(getWidth()-space_right+1, 0, getWidth(), getHeight());
+        //g.setColor(Color.LIGHT_GRAY);
+        //g.fillRect(getWidth()-space_right+1, 0, getWidth(), getHeight());
 
-        g.setColor(Color.CYAN);
+        g.setColor(Color.BLUE);
         Font font = new Font("Verdana", Font.BOLD, 20);
         g.setFont(font);
         g.drawString("Oscillator", 10, 20);
@@ -57,7 +57,7 @@ public class OscillatorPanel extends JPanel{
             g.drawLine(0, getHeight()/2+25, getWidth()-COTPanel.space_right, getHeight()/2+25);
             g.drawLine(0, getHeight()/2+50, getWidth()-COTPanel.space_right, getHeight()/2+50);
 
-            g.setColor(Color.GREEN);
+            g.setColor(Color.BLUE);
             g.drawLine(getWidth()-COTPanel.space_right, getHeight()/2, getWidth()-COTPanel.space_right+5, getHeight()/2);
             g.drawLine(getWidth()-COTPanel.space_right, getHeight()/2-25, getWidth()-COTPanel.space_right+5, getHeight()/2-25);
             g.drawLine(getWidth()-COTPanel.space_right, getHeight()/2-50, getWidth()-COTPanel.space_right+5, getHeight()/2-50);
