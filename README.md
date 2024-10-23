@@ -16,29 +16,6 @@ An Oscillator is a technical analysis tool. It helps determining whether a marke
 
 ![picture2](pictures/cot1.png)
 
-## Requirements
-```Apache POI```library has to be installed. <br>
-Download the required jars.
-You can download poi-bin-5.0.0-20210120.zip from official Apache POI website:
-https://archive.apache.org/dist/poi/release/bin/ and then unpack it.
-
-You need the following jar files:
-- ```poi-5.0.0.jar```
-- ```poi-examples-5.0.0.jar```
-- ```poi-excelant-5.0.0.jar```
-- ```poi-integration-5.0.0.jar```
-- ```poi-ooxml-5.0.0.jar```
-- ```poi-ooxml-full-5.0.0.jar```
-
-You also have to download ``` commons-math3-3.6.1.jar ``` here:
-https://commons.apache.org/proper/commons-math/download_math.cgi
-
-Add the jar files to the project classpath.
-
-In IntelliJ:
-1. Right-click on your project and select Open Module Settings (or use the shortcut F4).
-2. In the Modules section, click Dependencies.
-3. Click the + button and choose JARs or directories.
-4. Select all the downloaded JAR files and click OK.
-5. Click Apply and then OK.
+## Run
+Run the App in terminal with  ```./gradlew run```
 
