@@ -1,11 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.Console;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
@@ -64,7 +59,7 @@ public class COTPanel extends JPanel {
         Font font_small = new Font("Verdana", Font.PLAIN, 10);
         Font font = new Font("Verdana", Font.BOLD, 20);
         g.setFont(font);
-        g.drawString(COTVisualizer.selected, 200, 20);
+        g.drawString(COTVisualizer.selectedFuture, 200, 20);
 
         g.setColor(Color.BLACK);
         g.drawLine(width - space_right, 0, width - space_right, height);
@@ -104,7 +99,7 @@ public class COTPanel extends JPanel {
         }
 
         // DRAW GRID
-        if (COTVisualizer.grid) {
+        if (COTVisualizer.showGrid) {
             g.setColor(Color.LIGHT_GRAY);
             g.drawLine(0, height / 2, width - space_right - 1, height / 2);
             g.drawLine(0, height / 2 + 1, width - space_right - 1, height / 2 + 1);
@@ -131,35 +126,36 @@ public class COTPanel extends JPanel {
             g.setColor(Color.RED);
             g.drawString(String.valueOf(COTVisualizer.commercials[0]), 100, 10);
             g.setColor(Color.BLUE);
-            g.drawString(String.valueOf(COTVisualizer.largetraders[0]), 100, 30);
+            g.drawString(String.valueOf(COTVisualizer.largeTraders[0]), 100, 30);
             g.setColor(Color.GREEN);
-            g.drawString(String.valueOf(COTVisualizer.smalltraders[0]), 100, 50);
-            int start_x = width - space_right - 1 + COTVisualizer.x;
+            g.drawString(String.valueOf(COTVisualizer.smallTraders[0]), 100, 50);
+            int start_x = width - space_right - 1 + COTVisualizer.xOffset;
             int pos = 0;
             while ((start_x > COTVisualizer.deltaX) && (pos < COTVisualizer.commercials.length - 1)) {
                 if (start_x <= width - space_right) {
                     // DRAW COMMERCIALS
                     g.setColor(Color.RED);
                     g.drawLine(start_x - COTVisualizer.deltaX,
-                            height/2 - ((height-20)/2)* COTVisualizer.commercials[pos+1]/COTVisualizer.Max,
+                            height/2 - ((height-20)/2)* COTVisualizer.commercials[pos+1]/COTVisualizer.maxNetLongPositions
+                            ,
                             start_x,
-                            height/2 - ((height-20)/2)* COTVisualizer.commercials[pos]/COTVisualizer.Max);
+                            height/2 - ((height-20)/2)* COTVisualizer.commercials[pos]/COTVisualizer.maxNetLongPositions);
 
 
                     // DRAW LARGETRADERS
                     g.setColor(Color.BLUE);
                     g.drawLine(start_x - COTVisualizer.deltaX,
-                            height/2 - ((height-20)/2)* COTVisualizer.largetraders[pos+1]/COTVisualizer.Max,
+                            height/2 - ((height-20)/2)* COTVisualizer.largeTraders[pos+1]/COTVisualizer.maxNetLongPositions,
                             start_x,
-                            height/2 - ((height-20)/2)* COTVisualizer.largetraders[pos]/COTVisualizer.Max);
+                            height/2 - ((height-20)/2)* COTVisualizer.largeTraders[pos]/COTVisualizer.maxNetLongPositions);
 
 
                     // DRAW SMALLTRADERS
                     g.setColor(Color.GREEN);
                     g.drawLine(start_x - COTVisualizer.deltaX,
-                            height/2 - ((height-20)/2)* COTVisualizer.smalltraders[pos+1]/COTVisualizer.Max,
+                            height/2 - ((height-20)/2)* COTVisualizer.smallTraders[pos+1]/COTVisualizer.maxNetLongPositions,
                             start_x,
-                            height/2 - ((height-20)/2)* COTVisualizer.smalltraders[pos]/COTVisualizer.Max);
+                            height/2 - ((height-20)/2)* COTVisualizer.smallTraders[pos]/COTVisualizer.maxNetLongPositions);
 
 
                     // DRAW X COORDINATES
@@ -177,17 +173,17 @@ public class COTPanel extends JPanel {
 
             // DRAW THE CURRENT NUMBERS OF EACH NET LONG POSITION ON THE RIGHT SIDE
             g.setColor(Color.BLUE);
-            g.drawString(Integer.toString(COTVisualizer.largetraders[0]),
+            g.drawString(Integer.toString(COTVisualizer.largeTraders[0]),
                     width + 10 - space_right,
-                    height/2 - ((height-20)/2)* COTVisualizer.largetraders[0]/COTVisualizer.Max);
+                    height/2 - ((height-20)/2)* COTVisualizer.largeTraders[0]/COTVisualizer.maxNetLongPositions);
             g.setColor(Color.RED);
             g.drawString(Integer.toString(COTVisualizer.commercials[0]),
                     width + 10 - space_right,
-                    height/2 - ((height-20)/2)* COTVisualizer.commercials[0]/COTVisualizer.Max);
+                    height/2 - ((height-20)/2)* COTVisualizer.commercials[0]/COTVisualizer.maxNetLongPositions);
             g.setColor(Color.GREEN);
-            g.drawString(Integer.toString(COTVisualizer.smalltraders[0]),
+            g.drawString(Integer.toString(COTVisualizer.smallTraders[0]),
                     width + 10 - space_right,
-                    height/2 - ((height-20)/2)* COTVisualizer.smalltraders[0]/COTVisualizer.Max);
+                    height/2 - ((height-20)/2)* COTVisualizer.smallTraders[0]/COTVisualizer.maxNetLongPositions);
             g.drawString("0", width + 10 - space_right, height / 2 + 5);
             g.setColor(Color.GRAY);
             g.drawString("0", width + 10 - space_right, height / 2 + 5);

@@ -1,16 +1,14 @@
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 
 import javax.swing.JPanel;
 
 
 /**
- * Class <code>OscillatorPanel</code> is the bottom panel. It is used to visualize the oscillator.
+ * Class <code>OscillatorPanel</code> is the bottom panel. It is used to visualize the oscillatorValues.
  * 
  * @author Christine Merkel
  *
@@ -19,7 +17,7 @@ public class OscillatorPanel extends JPanel{
 	/** Width of the gray area on the right side of the GUI. */
     static final int space_right = 80;
     
-    /** The oscillator is shown or not */
+    /** The oscillatorValues is shown or not */
     public static boolean showOscillator;
     
     @Override
@@ -71,14 +69,14 @@ public class OscillatorPanel extends JPanel{
             g.drawString("100",getWidth()-COTPanel.space_right+10 , getHeight()/2+5-50);
 
             g.setColor(Color.GREEN);
-            int x= getWidth()-COTPanel.space_right+COTVisualizer.x;
+            int x= getWidth()-COTPanel.space_right+COTVisualizer.xOffset;
 
-            for(int j=0;j<COTVisualizer.oscillator.length-1;j++){
+            for(int j = 0; j<COTVisualizer.oscillatorValues.length-1; j++){
                 if(x-j*5 <=COTPanel.width-COTPanel.space_right){
                     g.drawLine(x-j*5,
-                            getHeight()/2+50-COTVisualizer.oscillator[j],
+                            getHeight()/2+50-COTVisualizer.oscillatorValues[j],
                             x-(j+1)*5,
-                            getHeight()/2+50-COTVisualizer.oscillator[j+1]);
+                            getHeight()/2+50-COTVisualizer.oscillatorValues[j+1]);
                 }
             }
             
