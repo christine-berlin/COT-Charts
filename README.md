@@ -18,11 +18,30 @@ An Oscillator is a technical analysis tool. It helps determining whether a marke
 
 ## Requirements
 ```Apache POI```library has to be installed. <br>
-The following are the required jars:
-- ```commons-math3-3.6.1.jar```
+Dowwload the required jars.
+You can download poi-5.0.0.jar official Apache POI website:
+https://poi.apache.org/download.html
+
+You need the following jar files:
 - ```poi-5.0.0.jar```
 - ```poi-examples-5.0.0.jar```
 - ```poi-excelant-5.0.0.jar```
 - ```poi-integration-5.0.0.jar```
 - ```poi-ooxml-5.0.0.jar```
 - ```poi-ooxml-full-5.0.0.jar```
+
+You also have to download ``` commons-math3-3.6.1.jar ``` here:
+https://commons.apache.org/proper/commons-math/download_math.cgi
+
+Scroll down to the Release Artifacts section. Under Binary Distribution, you find poi-bin-5.0.0.zip.
+Extract the zip file. Inside, you will find all the required JAR files.
+
+Add the jar files to the project classpath.
+
+In IntelliJ:
+1. Right-click on your project and select Open Module Settings (or use the shortcut F4).
+2. In the Modules section, click Dependencies.
+3. Click the + button and choose JARs or directories.
+4. Select all the downloaded JAR files and click OK.
+5. Click Apply and then OK.
+
