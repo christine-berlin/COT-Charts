@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id('application')
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.poi:poi:5.2.3' // For .xls
+    implementation 'commons-io:commons-io:2.14.0'
+}
+
+
+
+application {
+    // Set the fully qualified name of your main class here
+    mainClass = 'COTVisualizer'
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11)) // You can adjust this to your Java version (e.g., 8, 17)
+    }
+}
