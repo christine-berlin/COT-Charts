@@ -71,7 +71,7 @@ public class ExcelParser {
                             if (OS.startsWith("Windows")) path = folderOfTables + "\\" + name;
                             if (!OS.startsWith("Windows")) path = folderOfTables + "/" + name;
                             File f = new File(path);
-                            COTPanel.showUpdatngMessage = true;
+                            COTPanel.showUpdatingMessage = true;
                             COTPanel.nameOfTableFile = name;
                             COTVisualizer.gui.repaint();
 

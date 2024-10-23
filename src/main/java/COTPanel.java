@@ -36,7 +36,7 @@ public class COTPanel extends JPanel {
     public static boolean writingTableFiles;
     
     /** The message that the Application is beeing updated is shown or not */
-    public static boolean showUpdatngMessage;
+    public static boolean showUpdatingMessage;
     
     /** The name of the Future table file that is currently being created */
     public static String nameOfTableFile="";
@@ -81,7 +81,7 @@ public class COTPanel extends JPanel {
             g.drawString("Writing tables....", 100, 120);
         }
 
-        if (showUpdatngMessage) {
+        if (showUpdatingMessage) {
             g.drawString("UPDATING PLEASE WAIT", 100, 100);
             g.drawString("Writing tables....", 100, 120);
             g.drawString("table "+nameOfTableFile, 100, 140);

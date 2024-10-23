@@ -168,7 +168,12 @@ public class COTVisualizer {
 
         gui = new JFrame("COTViz");
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gui.addComponentListener(new ResizeListener());
+        gui.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+            }
+        });
 
         setupMenu();
         setupPanels();
@@ -396,6 +401,18 @@ public class COTVisualizer {
      * @param message The message to display.
      */
     private void showError(String message) {
-        JOptionPane.showMessageDialog(gui, message, "Error", JOptionPane.ERROR_MESSAGE);
+        //JOptionPane.showMessageDialog(gui, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Refreshes or repaints the COT and Oscillator panels.
+     */
+    private static void refreshPanels() {
+        if (!selectedFuture.equals("")) {
+            // Repaint both the COT and Oscillator panels
+            COTPanel.showCOTChart = true;
+            OscillatorPanel.showOscillator = true;
+            gui.repaint();  // Repaint the GUI to reflect the changes
+        }
     }
 }
