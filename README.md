@@ -33,9 +33,6 @@ You need the following jar files:
 You also have to download ``` commons-math3-3.6.1.jar ``` here:
 https://commons.apache.org/proper/commons-math/download_math.cgi
 
-Scroll down to the Release Artifacts section. Under Binary Distribution, you find poi-bin-5.0.0.zip.
-Extract the zip file. Inside, you will find all the required JAR files.
-
 Add the jar files to the project classpath.
 
 In IntelliJ:
