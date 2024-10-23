@@ -18,9 +18,9 @@ An Oscillator is a technical analysis tool. It helps determining whether a marke
 
 ## Requirements
 ```Apache POI```library has to be installed. <br>
-Dowwload the required jars.
-You can download poi-5.0.0.jar official Apache POI website:
-https://poi.apache.org/download.html
+Download the required jars.
+You can download poi-bin-5.0.0-20210120.zip from official Apache POI website:
+https://archive.apache.org/dist/poi/release/bin/ and then unpack it.
 
 You need the following jar files:
 - ```poi-5.0.0.jar```
