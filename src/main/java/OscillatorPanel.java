@@ -19,6 +19,13 @@ public class OscillatorPanel extends JPanel{
     
     /** The oscillatorValues is shown or not */
     public static boolean showOscillator;
+
+    private COTVisualizer cotVisualizer;
+
+    public OscillatorPanel(COTVisualizer cotVisualizer) {
+        this.cotVisualizer = cotVisualizer;
+    }
+
     
     @Override
     public void paintComponent(Graphics g)
@@ -28,15 +35,6 @@ public class OscillatorPanel extends JPanel{
         Point point1 = new Point(getWidth()/2, 0);
         Point point2 = new Point(getWidth()/2, getHeight());
 
-        //Color color1 = Color.LIGHT_GRAY;
-        //Color color2 = Color.BLACK;
-        //final GradientPaint gp = new GradientPaint(point1, color1, point2, color2, true);
-        //final Graphics2D g2 = (Graphics2D) g;
-        //g2.setPaint(gp);
-        //g.fillRect(0, 0, getWidth(), getHeight());
-
-        //g.setColor(Color.LIGHT_GRAY);
-        //g.fillRect(getWidth()-space_right+1, 0, getWidth(), getHeight());
 
         g.setColor(Color.BLUE);
         Font font = new Font("Verdana", Font.BOLD, 20);
@@ -69,7 +67,7 @@ public class OscillatorPanel extends JPanel{
             g.drawString("100",getWidth()-COTPanel.space_right+10 , getHeight()/2+5-50);
 
             g.setColor(Color.GREEN);
-            int x= getWidth()-COTPanel.space_right+COTVisualizer.xOffset;
+            int x= getWidth()-COTPanel.space_right+cotVisualizer.getXOffset();
 
             for(int j = 0; j<COTVisualizer.oscillatorValues.length-1; j++){
                 if(x-j*5 <=COTPanel.width-COTPanel.space_right){

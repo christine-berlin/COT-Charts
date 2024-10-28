@@ -3,6 +3,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+import javax.swing.*;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -73,7 +74,10 @@ public class ExcelParser {
                             File f = new File(path);
                             COTPanel.showUpdatingMessage = true;
                             COTPanel.nameOfTableFile = name;
-                            COTVisualizer.gui.repaint();
+                            //COTVisualizer.gui.repaint();
+                            SwingUtilities.invokeLater(() -> {
+                                COTVisualizer.getGui().repaint(); // Call repaint on the GUI instance
+                            });
 
                             FileWriter tablefw = new FileWriter(f, true);
                             // Date

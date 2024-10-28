@@ -41,6 +41,12 @@ public class COTPanel extends JPanel {
     /** The name of the Future table file that is currently being created */
     public static String nameOfTableFile="";
 
+    private COTVisualizer cotVisualizer;
+
+    public COTPanel(COTVisualizer cotVisualizer) {
+        this.cotVisualizer = cotVisualizer;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -59,7 +65,7 @@ public class COTPanel extends JPanel {
         Font font_small = new Font("Verdana", Font.PLAIN, 10);
         Font font = new Font("Verdana", Font.BOLD, 20);
         g.setFont(font);
-        g.drawString(COTVisualizer.selectedFuture, 200, 20);
+        g.drawString(cotVisualizer.getSelectedFuture(), 200, 20);
 
         g.setColor(Color.BLACK);
         g.drawLine(width - space_right, 0, width - space_right, height);
@@ -88,18 +94,18 @@ public class COTPanel extends JPanel {
         }
 
         // DRAW CROSSHAIR
-        if ((COTVisualizer.drawCrosshair) && (showCOTChart)) {
+        if ((cotVisualizer.getDrawCrosshair()) && (showCOTChart)) {
             g.setColor(Color.YELLOW);
-            if (COTVisualizer.crosshairX > (width - space_right)) {
-                COTVisualizer.crosshairX = width - space_right;
+            if (cotVisualizer.getCrosshairX() > (width - space_right)) {
+                cotVisualizer.setCrosshairX(width - space_right);
             }
-            g.drawLine(COTVisualizer.crosshairX, 0, COTVisualizer.crosshairX, COTVisualizer.cotPanel.getHeight());
-            g.drawLine(0, COTVisualizer.crosshairY, COTVisualizer.cotPanel.getWidth() - space_right,
-                    COTVisualizer.crosshairY);
+            g.drawLine(cotVisualizer.getCrosshairX(), 0, cotVisualizer.getCrosshairX(), cotVisualizer.cotPanel.getHeight());
+            g.drawLine(0, cotVisualizer.getCrosshairY(), cotVisualizer.cotPanel.getWidth() - space_right,
+                    cotVisualizer.getCrosshairY());
         }
 
         // DRAW GRID
-        if (COTVisualizer.showGrid) {
+        if (cotVisualizer.getShowGrid()) {
             g.setColor(Color.LIGHT_GRAY);
             g.drawLine(0, height / 2, width - space_right - 1, height / 2);
             g.drawLine(0, height / 2 + 1, width - space_right - 1, height / 2 + 1);
@@ -129,7 +135,7 @@ public class COTPanel extends JPanel {
             g.drawString(String.valueOf(COTVisualizer.largeTraders[0]), 100, 30);
             g.setColor(Color.GREEN);
             g.drawString(String.valueOf(COTVisualizer.smallTraders[0]), 100, 50);
-            int start_x = width - space_right - 1 + COTVisualizer.xOffset;
+            int start_x = width - space_right - 1 + cotVisualizer.getXOffset();
             int pos = 0;
             while ((start_x > COTVisualizer.deltaX) && (pos < COTVisualizer.commercials.length - 1)) {
                 if (start_x <= width - space_right) {

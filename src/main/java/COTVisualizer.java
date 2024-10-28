@@ -15,142 +15,142 @@ public class COTVisualizer {
     /**
      * Frame of the GUI
      */
-    public static JFrame gui;
+    private JFrame gui;
 
     /**
      * MenuBar in the top of the GUI
      */
-    public static JMenuBar menuBar;
+    private JMenuBar menuBar;
 
     /**
      * List with the Future Name Abbreviations that can be selected in the ComboBox.
      */
-    public static String[] comboBoxList;
+    private String[] comboBoxList;
 
     /**
      * The Panel for the visualization of the COT charts.
      */
-    public static JPanel cotPanel;
+    private JPanel cotPanel;
 
     /**
      * The Panel for the visualization of the oscillatorValues
      */
-    public static JPanel oscillatorPanel;
+    private JPanel oscillatorPanel;
 
     /**
      * The name of the selected Future in the CpmboBox.
      */
-    public static String selectedFuture = "";
+    private String selectedFuture = "";
 
     /**
      * List that contains all the dates of the COT excel files.
      */
-    public static String[] dates;
+    private String[] dates;
 
     /**
      * List that contains all the net long positions of the commercials.
      */
-    public static Integer[] commercials;
+    private Integer[] commercials;
 
     /**
      * List that contains all the net long positions of the large traders.
      */
-    public static Integer[] largeTraders;
+    private Integer[] largeTraders;
 
     /**
      * List that contains all the net long positions of the small traders.
      */
-    public static Integer[] smallTraders;
+    private Integer[] smallTraders;
 
     /**
      * List contains all the yOffset-values of the oscillatorValues.
      */
-    public static Integer[] oscillatorValues;
+    private Integer[] oscillatorValues;
 
     /**
      * X coordinate of the current position of the cross of the crosshair.
      */
-    public static int crosshairX;
+    private int crosshairX;
 
     /**
      * Y coordinate of the current position of the cross of the crosshair.
      */
-    public static int crosshairY;
+    private int crosshairY;
 
     /**
      * Show crosshair or not.
      */
-    public static boolean drawCrosshair = false;
+    private boolean drawCrosshair = false;
 
     /**
      * Show showGrid or not.
      */
-    public static boolean showGrid = false;
+    private boolean showGrid = false;
 
     /**
      * Select showGrid.
      */
-    public static JCheckBox gridCheckbox;
+    private JCheckBox gridCheckbox;
 
     /**
      * Select crosshair.
      */
-    public static JCheckBox crosshairCheckbox;
+    private JCheckBox crosshairCheckbox;
 
     /**
      * Current position of the mouse cursor.
      */
-    public static Point mousePoint;
+    private Point mousePoint;
 
     /**
      * X coordinate of the current mouse cursor position.
      */
-    public static int xOffset = 0;
+    private int xOffset = 0;
 
     /**
      * Y coordinate of the current mouse cursor position.
      */
-    public static int yOffset = 0;
+    private int yOffset = 0;
 
     /**
      * Update button.
      */
-    public static JButton updateButton;
+    private JButton updateButton;
 
     /**
      * Instance of UpdateExcelFiles.
      */
-    public static UpdateExcelFiles updateExcelFiles;
+    private UpdateExcelFiles updateExcelFiles;
 
     /**
      * The maximum net long positions of the commercials.
      */
-    public static int maxNetLongPositions;
+    private int maxNetLongPositions;
 
     /**
      * Constant that defines the size if the showGrid.
      */
-    final static int deltaX = 5;
+    final int deltaX = 5;
 
     /**
      * Offset for oscillator calculation
      */
-    private static final int OSCILLATOR_OFFSET = 26;
+    private final int OSCILLATOR_OFFSET = 26;
 
     /**
      * Directory for table files
      */
-    private static final String TABLES_DIRECTORY = "tables/";
+    private final String TABLES_DIRECTORY = "tables/";
 
     /**
      * Error message prefix
      */
-    private static final String ERROR_FILE_NOT_FOUND = "File not found: ";
+    private final String ERROR_FILE_NOT_FOUND = "File not found: ";
 
     /**
      * Error message prefix
      */
-    private static final String ERROR_READING_FILE = "Error reading file: ";
+    private final String ERROR_READING_FILE = "Error reading file: ";
 
     /**
      * Main entry point.
@@ -167,7 +167,9 @@ public class COTVisualizer {
         updateExcelFiles.init();
 
         gui = new JFrame("COTViz");
+
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         gui.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -181,6 +183,53 @@ public class COTVisualizer {
         gui.pack();
         gui.setVisible(true);
         gui.repaint();
+    }
+
+    /**
+     *  Getter Method for the gui
+     */
+    public JFrame getGui() {
+        return gui;
+    }
+
+    /**
+     *  Getter Method for crosshairX
+     */
+    public int getCrosshairX() {
+        return crosshairX;
+    }
+
+    /**
+     *  Getter Method for xOffset
+     */
+    public int getXOffset() {
+        return xOffset;
+    }
+
+    /**
+     *  Setter Method for crosshairX
+     */
+    public void setCrosshairX(int new_x) {
+        crosshairX = new_x;
+    }
+
+    /**
+     *  Getter Method for crosshairY
+     */
+    public int getCrosshairY() {
+        return crosshairY;
+    }
+
+    /**
+     *  Getter Method for drawCrosshair
+     */
+    public  boolean getDrawCrosshair() {
+        return drawCrosshair;
+    }
+
+
+    public boolean getShowGrid() {
+        return showGrid;
     }
 
     /**
@@ -215,9 +264,9 @@ public class COTVisualizer {
      * Sets up the panels for visualization.
      */
     private void setupPanels() {
-        oscillatorPanel = new OscillatorPanel();
+        oscillatorPanel = new OscillatorPanel(this);
         oscillatorPanel.setPreferredSize(new Dimension(gui.getWidth(), 150));
-        cotPanel = new COTPanel();
+        cotPanel = new COTPanel(this);
         cotPanel.setPreferredSize(new Dimension(gui.getWidth(), 500));
         cotPanel.setBackground(Color.DARK_GRAY);
 
@@ -259,6 +308,13 @@ public class COTVisualizer {
         JComboBox<String> comboBox = (JComboBox<String>) event.getSource();
         selectedFuture = (String) comboBox.getSelectedItem();
         loadCOTData();
+    }
+
+    /**
+     *  Getter Method for the selectedFuture
+     */
+    public String getSelectedFuture() {
+        return selectedFuture;
     }
 
     /**
@@ -401,14 +457,14 @@ public class COTVisualizer {
      * @param message The message to display.
      */
     private void showError(String message) {
-        //JOptionPane.showMessageDialog(gui, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(gui, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     /**
      * Refreshes or repaints the COT and Oscillator panels.
      */
-    private static void refreshPanels() {
-        if (!selectedFuture.equals("")) {
+    private void refreshPanels() {
+        if (!selectedFuture.isEmpty()) {
             // Repaint both the COT and Oscillator panels
             COTPanel.showCOTChart = true;
             OscillatorPanel.showOscillator = true;
