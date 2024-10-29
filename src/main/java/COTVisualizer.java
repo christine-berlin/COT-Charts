@@ -458,8 +458,8 @@ public class COTVisualizer {
 
         for (int i = 0; i < oscillatorValues.length; i++) {
             List<Integer> subList = Arrays.asList(commercials).subList(i, OSCILLATOR_OFFSET + i);
-            int minIndex = subList.indexOf(Collections.min(subList));
-            int maxIndex = subList.indexOf(Collections.max(subList));
+            int minIndex = i + subList.indexOf(Collections.min(subList));
+            int maxIndex = i+ subList.indexOf(Collections.max(subList));
 
             int currentValue = commercials[i];
             int maxValue = commercials[maxIndex];
