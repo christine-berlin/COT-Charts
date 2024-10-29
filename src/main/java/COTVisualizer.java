@@ -218,8 +218,6 @@ public class COTVisualizer {
         return cotPanel;
     }
 
-
-
     /**
      *  Getter Method for dates[]
      */
@@ -248,8 +246,6 @@ public class COTVisualizer {
         return commercials;
     }
 
-
-
     /**
      *  Getter Method for crosshairX
      */
@@ -263,7 +259,6 @@ public class COTVisualizer {
     public int getDeltaX() {
         return deltaX;
     }
-
 
     /**
      *  Getter Method for showCOTCharts
@@ -452,6 +447,7 @@ public class COTVisualizer {
                         .map(Math::abs)
                         .max(Integer::compareTo)
                         .orElse(0));
+
     }
 
     /**
@@ -464,15 +460,13 @@ public class COTVisualizer {
             List<Integer> subList = Arrays.asList(commercials).subList(i, OSCILLATOR_OFFSET + i);
             int minIndex = subList.indexOf(Collections.min(subList));
             int maxIndex = subList.indexOf(Collections.max(subList));
-            System.out.println("Commercials: "+commercials[i]);
+
             int currentValue = commercials[i];
             int maxValue = commercials[maxIndex];
             int minValue = commercials[minIndex];
 
             oscillatorValues[i] = (maxValue - minValue) != 0 ?
                     100 * (currentValue - minValue) / (maxValue - minValue) : 0;
-
-            System.out.println("Value: "+oscillatorValues[i]);
         }
     }
 
