@@ -152,6 +152,8 @@ public class COTVisualizer {
      */
     private final String ERROR_READING_FILE = "Error reading file: ";
 
+    private boolean showCOTChart;
+
     /**
      * Main entry point.
      */
@@ -163,7 +165,7 @@ public class COTVisualizer {
      * Initializes the GUI components and layout.
      */
     private void initialize() {
-        updateExcelFiles = new UpdateExcelFiles();
+        updateExcelFiles = new UpdateExcelFiles(this);
         updateExcelFiles.init();
 
         gui = new JFrame("COTViz");
@@ -192,11 +194,89 @@ public class COTVisualizer {
         return gui;
     }
 
+
+    /**
+     *  Getter Method for oscillatorPanel
+     */
+    public JPanel getOscillatorPanel() {
+        return oscillatorPanel;
+    }
+
+
+    /**
+     *  Getter Method for oscillatorValues
+     */
+    public Integer[] getOscillatorValues() {
+        return oscillatorValues;
+    }
+
+
+    /**
+     *  Getter Method for cotPanel
+     */
+    public JPanel getCotPanel() {
+        return cotPanel;
+    }
+
+
+
+    /**
+     *  Getter Method for dates[]
+     */
+    public String[] getDates() {
+        return dates;
+    }
+
+    /**
+     *  Getter Method for the largeTraders[]
+     */
+    public Integer[] getLargeTraders() {
+        return largeTraders;
+    }
+
+    /**
+     *  Getter Method for the smallTraders[]
+     */
+    public Integer[] getSmallTraders() {
+        return smallTraders;
+    }
+
+    /**
+     *  Getter Method for the commercials[]
+     */
+    public Integer[] getCommercials() {
+        return commercials;
+    }
+
+
+
     /**
      *  Getter Method for crosshairX
      */
     public int getCrosshairX() {
         return crosshairX;
+    }
+
+    /**
+     *  Getter Method for deltaX
+     */
+    public int getDeltaX() {
+        return deltaX;
+    }
+
+
+    /**
+     *  Getter Method for showCOTCharts
+     */
+    public boolean getShowCOTChart() {
+        return showCOTChart;
+    }
+
+    /**
+     *  Getter Method for maxNetLongPositions
+     */
+    public int getMaxNetLongPositions() {
+        return maxNetLongPositions;
     }
 
     /**
@@ -265,6 +345,7 @@ public class COTVisualizer {
      */
     private void setupPanels() {
         oscillatorPanel = new OscillatorPanel(this);
+
         oscillatorPanel.setPreferredSize(new Dimension(gui.getWidth(), 150));
         cotPanel = new COTPanel(this);
         cotPanel.setPreferredSize(new Dimension(gui.getWidth(), 500));
@@ -466,7 +547,8 @@ public class COTVisualizer {
     private void refreshPanels() {
         if (!selectedFuture.isEmpty()) {
             // Repaint both the COT and Oscillator panels
-            COTPanel.showCOTChart = true;
+            //COTPanel.showCOTChart = true;
+            showCOTChart = true;
             OscillatorPanel.showOscillator = true;
             gui.repaint();  // Repaint the GUI to reflect the changes
         }

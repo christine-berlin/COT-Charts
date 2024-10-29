@@ -56,8 +56,16 @@ public class UpdateExcelFiles {
     private HashMap<String, String> nameAbbreviationPairs; 
     
     /** Contains the Abbreviations of the Future Names. The Abbreviations are used in the GUI. */
-    private String[] futureNameAbbreviations; 
-    
+    private String[] futureNameAbbreviations;
+
+    private COTVisualizer cotVisualizer;
+
+    public UpdateExcelFiles(COTVisualizer cotVisualizer) {
+        this.cotVisualizer = cotVisualizer;
+    }
+
+
+
     /**
      *  Initializes the HashMap nameAbbreviationPairs.
      */
@@ -187,7 +195,7 @@ public class UpdateExcelFiles {
     	}
 
     	folderOfTables = dir.getPath();
-    	ExcelParser parser = new ExcelParser(folderOfTables, futureNameAbbreviations, excelFiles, nameAbbreviationPairs);
+    	ExcelParser parser = new ExcelParser(cotVisualizer, folderOfTables, futureNameAbbreviations, excelFiles, nameAbbreviationPairs);
     	parser.start();
 
         // currentdate_string

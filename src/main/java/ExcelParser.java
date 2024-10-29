@@ -29,6 +29,8 @@ public class ExcelParser {
     
     /** HashMap that stores Future name and Abbreviation pairs. */
     HashMap<String, String> nameAbbreviationPairs;
+
+    private COTVisualizer cotVisualizer;
     
     /**
      * Constructor
@@ -38,7 +40,8 @@ public class ExcelParser {
      * @param excelFiles               list that contains the COT excel files
      * @param nameAbbreviationPairs    HashMap that stores Future name and Abbreviation pairs
      */
-    public ExcelParser(String folderOfTables, String[] futureNameAbbreviations,  File[] excelFiles, HashMap<String, String> nameAbbreviationPairs) {
+    public ExcelParser(COTVisualizer cotVisualizer, String folderOfTables, String[] futureNameAbbreviations,  File[] excelFiles, HashMap<String, String> nameAbbreviationPairs) {
+        this.cotVisualizer = cotVisualizer;
         this.folderOfTables = folderOfTables;
         this.futureNameAbbreviations = futureNameAbbreviations;
         this.excelFiles = excelFiles;
@@ -76,7 +79,7 @@ public class ExcelParser {
                             COTPanel.nameOfTableFile = name;
                             //COTVisualizer.gui.repaint();
                             SwingUtilities.invokeLater(() -> {
-                                COTVisualizer.getGui().repaint(); // Call repaint on the GUI instance
+                                cotVisualizer.getGui().repaint(); // Call repaint on the GUI instance
                             });
 
                             FileWriter tablefw = new FileWriter(f, true);

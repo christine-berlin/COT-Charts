@@ -24,7 +24,7 @@ public class COTPanel extends JPanel {
     static int height;
     
     /** COT Chart is painted or not */
-    static boolean showCOTChart;
+    //static boolean showCOTChart = true;
     
     /** Excel files are currently updating or not */
     public static boolean updatingExcelFiles;
@@ -46,6 +46,9 @@ public class COTPanel extends JPanel {
     public COTPanel(COTVisualizer cotVisualizer) {
         this.cotVisualizer = cotVisualizer;
     }
+
+
+
 
     @Override
     public void paintComponent(Graphics g) {
@@ -94,13 +97,13 @@ public class COTPanel extends JPanel {
         }
 
         // DRAW CROSSHAIR
-        if ((cotVisualizer.getDrawCrosshair()) && (showCOTChart)) {
+        if ((cotVisualizer.getDrawCrosshair()) && (cotVisualizer.getShowCOTChart())) {
             g.setColor(Color.YELLOW);
             if (cotVisualizer.getCrosshairX() > (width - space_right)) {
                 cotVisualizer.setCrosshairX(width - space_right);
             }
-            g.drawLine(cotVisualizer.getCrosshairX(), 0, cotVisualizer.getCrosshairX(), cotVisualizer.cotPanel.getHeight());
-            g.drawLine(0, cotVisualizer.getCrosshairY(), cotVisualizer.cotPanel.getWidth() - space_right,
+            g.drawLine(cotVisualizer.getCrosshairX(), 0, cotVisualizer.getCrosshairX(), cotVisualizer.getCotPanel().getHeight());
+            g.drawLine(0, cotVisualizer.getCrosshairY(), cotVisualizer.getCotPanel().getWidth() - space_right,
                     cotVisualizer.getCrosshairY());
         }
 
@@ -114,7 +117,7 @@ public class COTPanel extends JPanel {
             int x = width - space_right - 1;
             while (x > 0) {
                 g.drawLine(x, 0, x, height);
-                x -= 5 * COTVisualizer.deltaX;
+                x -= 5 * cotVisualizer.getDeltaX();
             }
 
             int y = height / 2;
@@ -125,76 +128,77 @@ public class COTPanel extends JPanel {
             }
         }
 
-        if (showCOTChart) {
+
+        if (cotVisualizer.getShowCOTChart()) {
             g.setColor(Color.GRAY);
             g.drawLine(0, height/2, width-75, height/2);
             g.setFont(font_small);
             g.setColor(Color.RED);
-            g.drawString(String.valueOf(COTVisualizer.commercials[0]), 100, 10);
+            g.drawString(String.valueOf(cotVisualizer.getCommercials()[0]), 100, 10);
             g.setColor(Color.BLUE);
-            g.drawString(String.valueOf(COTVisualizer.largeTraders[0]), 100, 30);
+            g.drawString(String.valueOf(cotVisualizer.getLargeTraders()[0]), 100, 30);
             g.setColor(Color.GREEN);
-            g.drawString(String.valueOf(COTVisualizer.smallTraders[0]), 100, 50);
+            g.drawString(String.valueOf(cotVisualizer.getSmallTraders()[0]), 100, 50);
             int start_x = width - space_right - 1 + cotVisualizer.getXOffset();
             int pos = 0;
-            while ((start_x > COTVisualizer.deltaX) && (pos < COTVisualizer.commercials.length - 1)) {
+            while ((start_x > cotVisualizer.getDeltaX()) && (pos < cotVisualizer.getCommercials().length - 1)) {
                 if (start_x <= width - space_right) {
                     // DRAW COMMERCIALS
                     g.setColor(Color.RED);
-                    g.drawLine(start_x - COTVisualizer.deltaX,
-                            height/2 - ((height-20)/2)* COTVisualizer.commercials[pos+1]/COTVisualizer.maxNetLongPositions
+                    g.drawLine(start_x - cotVisualizer.getDeltaX(),
+                            height/2 - ((height-20)/2)* cotVisualizer.getCommercials()[pos+1]/cotVisualizer.getMaxNetLongPositions()
                             ,
                             start_x,
-                            height/2 - ((height-20)/2)* COTVisualizer.commercials[pos]/COTVisualizer.maxNetLongPositions);
+                            height/2 - ((height-20)/2)* cotVisualizer.getCommercials()[pos]/cotVisualizer.getMaxNetLongPositions());
 
 
                     // DRAW LARGETRADERS
                     g.setColor(Color.BLUE);
-                    g.drawLine(start_x - COTVisualizer.deltaX,
-                            height/2 - ((height-20)/2)* COTVisualizer.largeTraders[pos+1]/COTVisualizer.maxNetLongPositions,
+                    g.drawLine(start_x - cotVisualizer.getDeltaX(),
+                            height/2 - ((height-20)/2)* cotVisualizer.getLargeTraders()[pos+1]/cotVisualizer.getMaxNetLongPositions(),
                             start_x,
-                            height/2 - ((height-20)/2)* COTVisualizer.largeTraders[pos]/COTVisualizer.maxNetLongPositions);
+                            height/2 - ((height-20)/2)* cotVisualizer.getLargeTraders()[pos]/cotVisualizer.getMaxNetLongPositions());
 
 
                     // DRAW SMALLTRADERS
                     g.setColor(Color.GREEN);
-                    g.drawLine(start_x - COTVisualizer.deltaX,
-                            height/2 - ((height-20)/2)* COTVisualizer.smallTraders[pos+1]/COTVisualizer.maxNetLongPositions,
+                    g.drawLine(start_x - cotVisualizer.getDeltaX(),
+                            height/2 - ((height-20)/2)* cotVisualizer.getSmallTraders()[pos+1]/cotVisualizer.getMaxNetLongPositions(),
                             start_x,
-                            height/2 - ((height-20)/2)* COTVisualizer.smallTraders[pos]/COTVisualizer.maxNetLongPositions);
+                            height/2 - ((height-20)/2)* cotVisualizer.getSmallTraders()[pos]/cotVisualizer.getMaxNetLongPositions());
 
 
                     // DRAW X COORDINATES
                     g.setColor(Color.ORANGE);
                     g.setFont(font_small);
                     if (pos % 10 == 0) {
-                        g.drawString(COTVisualizer.dates[pos], start_x - 15, height - 10);
+                        g.drawString(cotVisualizer.getDates()[pos], start_x - 15, height - 10);
                         g.drawLine(start_x, height, start_x, height - 10);
                     }
                 }
                 
-                start_x -= COTVisualizer.deltaX;
+                start_x -= cotVisualizer.getDeltaX();
                 pos += 1;
             }
 
             // DRAW THE CURRENT NUMBERS OF EACH NET LONG POSITION ON THE RIGHT SIDE
             g.setColor(Color.BLUE);
-            g.drawString(Integer.toString(COTVisualizer.largeTraders[0]),
+            g.drawString(Integer.toString(cotVisualizer.getLargeTraders()[0]),
                     width + 10 - space_right,
-                    height/2 - ((height-20)/2)* COTVisualizer.largeTraders[0]/COTVisualizer.maxNetLongPositions);
+                    height/2 - ((height-20)/2)* cotVisualizer.getLargeTraders()[0]/cotVisualizer.getMaxNetLongPositions());
             g.setColor(Color.RED);
-            g.drawString(Integer.toString(COTVisualizer.commercials[0]),
+            g.drawString(Integer.toString(cotVisualizer.getCommercials()[0]),
                     width + 10 - space_right,
-                    height/2 - ((height-20)/2)* COTVisualizer.commercials[0]/COTVisualizer.maxNetLongPositions);
+                    height/2 - ((height-20)/2)* cotVisualizer.getCommercials()[0]/cotVisualizer.getMaxNetLongPositions());
             g.setColor(Color.GREEN);
-            g.drawString(Integer.toString(COTVisualizer.smallTraders[0]),
+            g.drawString(Integer.toString(cotVisualizer.getSmallTraders()[0]),
                     width + 10 - space_right,
-                    height/2 - ((height-20)/2)* COTVisualizer.smallTraders[0]/COTVisualizer.maxNetLongPositions);
+                    height/2 - ((height-20)/2)* cotVisualizer.getSmallTraders()[0]/cotVisualizer.getMaxNetLongPositions());
             g.drawString("0", width + 10 - space_right, height / 2 + 5);
             g.setColor(Color.GRAY);
             g.drawString("0", width + 10 - space_right, height / 2 + 5);
 
-            showCOTChart = false;
+            //showCOTChart = false;
         }
     }
 }
