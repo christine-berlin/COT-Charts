@@ -3,6 +3,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+import javax.swing.*;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,6 +29,8 @@ public class ExcelParser {
     
     /** HashMap that stores Future name and Abbreviation pairs. */
     HashMap<String, String> nameAbbreviationPairs;
+
+    private COTVisualizer cotVisualizer;
     
     /**
      * Constructor
@@ -37,7 +40,8 @@ public class ExcelParser {
      * @param excelFiles               list that contains the COT excel files
      * @param nameAbbreviationPairs    HashMap that stores Future name and Abbreviation pairs
      */
-    public ExcelParser(String folderOfTables, String[] futureNameAbbreviations,  File[] excelFiles, HashMap<String, String> nameAbbreviationPairs) {
+    public ExcelParser(COTVisualizer cotVisualizer, String folderOfTables, String[] futureNameAbbreviations,  File[] excelFiles, HashMap<String, String> nameAbbreviationPairs) {
+        this.cotVisualizer = cotVisualizer;
         this.folderOfTables = folderOfTables;
         this.futureNameAbbreviations = futureNameAbbreviations;
         this.excelFiles = excelFiles;
@@ -71,9 +75,15 @@ public class ExcelParser {
                             if (OS.startsWith("Windows")) path = folderOfTables + "\\" + name;
                             if (!OS.startsWith("Windows")) path = folderOfTables + "/" + name;
                             File f = new File(path);
-                            COTPanel.showUpdatngMessage = true;
-                            COTPanel.nameOfTableFile = name;
-                            COTVisualizer.gui.repaint();
+                            //COTPanel.showUpdatingMessage = true;
+                            cotVisualizer.setShowUpdatingMessage(true);
+
+                            cotVisualizer.setNameOfTableFile(name);
+
+                            //cotVisualizer.getGui().repaint();
+                            SwingUtilities.invokeLater(() -> {
+                                cotVisualizer.getGui().repaint(); // Call repaint on the GUI instance
+                            });
 
                             FileWriter tablefw = new FileWriter(f, true);
                             // Date
