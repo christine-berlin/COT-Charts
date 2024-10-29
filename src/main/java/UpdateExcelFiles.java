@@ -64,8 +64,6 @@ public class UpdateExcelFiles {
         this.cotVisualizer = cotVisualizer;
     }
 
-
-
     /**
      *  Initializes the HashMap nameAbbreviationPairs.
      */

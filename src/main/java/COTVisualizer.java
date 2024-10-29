@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 
@@ -134,6 +136,8 @@ public class COTVisualizer {
      */
     final int deltaX = 5;
 
+    private boolean NoData;
+
     /**
      * Offset for oscillator calculation
      */
@@ -199,6 +203,10 @@ public class COTVisualizer {
         gui.repaint();
     }
 
+    public void setShowUpdatingMessage(boolean state){
+        showUpdatingMessage = state;
+    }
+
     /**
      *  Getter Method for updatingExcelFiles
      */
@@ -232,6 +240,13 @@ public class COTVisualizer {
      */
     public String getNameOfTableFile() {
         return nameOfTableFile;
+    }
+
+    /**
+     *  Setter Method for nameOfTableFile
+     */
+    public void setNameOfTableFile(String name) {
+        nameOfTableFile = name;
     }
 
     /**
@@ -436,6 +451,12 @@ public class COTVisualizer {
     private void onFutureSelected(ActionEvent event) {
         JComboBox<String> comboBox = (JComboBox<String>) event.getSource();
         selectedFuture = (String) comboBox.getSelectedItem();
+
+        if (!Files.exists(Path.of(TABLES_DIRECTORY))) {
+            JOptionPane.showMessageDialog(gui, "No data available. Please UPDATE COT", "Data Not Found", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         loadCOTData();
     }
 
@@ -447,6 +468,13 @@ public class COTVisualizer {
     }
 
     /**
+     *  Getter Method for the NoData
+     */
+    public boolean getNoData()  {
+        return NoData;
+    }
+
+    /**
      * Loads COT data based on the selected future.
      */
     private void loadCOTData() {
@@ -455,6 +483,7 @@ public class COTVisualizer {
         List<Integer> largeTradersList = new ArrayList<>();
         List<Integer> smallTradersList = new ArrayList<>();
 
+        NoData = false;
         try (BufferedReader reader = new BufferedReader(new FileReader(TABLES_DIRECTORY + selectedFuture))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -577,6 +606,7 @@ public class COTVisualizer {
                 writingTableFiles = false;
                 showUpdatingMessage = false;
                 gui.repaint();
+                //JOptionPane.showMessageDialog(gui, "UPDATE IS READY", "Update Complete", JOptionPane.INFORMATION_MESSAGE);
             });
         }).start();
     }

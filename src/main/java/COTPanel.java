@@ -31,6 +31,11 @@ public class COTPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        if (cotVisualizer == null || cotVisualizer.getOscillatorValues() == null
+             && !cotVisualizer.getUpdatingExcelFiles()) {
+            return;
+        }
+
         height = getHeight();
         width = getWidth();
         g.setColor(Color.RED);
@@ -55,6 +60,10 @@ public class COTPanel extends JPanel {
 
         if (cotVisualizer.getUpdatingExcelFiles()) {
             g.drawString("UPDATING PLEASE WAIT", 100, 100);
+        }
+
+        if (cotVisualizer.getNoData()) {
+            g.drawString("NO DATA AVAILABLE", 100, 80);
         }
 
         if (cotVisualizer.getDownloadingExcelFiles()) {
