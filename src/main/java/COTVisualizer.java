@@ -468,10 +468,12 @@ public class COTVisualizer {
             oscillatorValues[i] = (maxValue - minValue) != 0 ?
                     100 * (currentValue - minValue) / (maxValue - minValue) : 0;
 
-            // Output fpr debugging
-            //System.out.println("Index: " + i + ", Current: " + currentValue + ", Min: " + minValue + ", Max: " + maxValue + ", Oscillator: " + oscillatorValues[i]);
-            //System.out.println("Offset: "+OSCILLATOR_OFFSET);
-            System.out.println("Index: " + i +"MIN INDEX: "+minIndex +" MAX INDEX "+maxIndex);
+            if (i==oscillatorValues.length-1) {
+                subList.forEach(System.out::println);
+                System.out.println("min Index: "+minIndex+"  max Index: "+maxIndex);
+                System.out.println("min Value: "+minValue+"  max Value: "+maxValue);
+                System.out.println("Oscillator Value: "+oscillatorValues[i]);
+            }
         }
     }
 
