@@ -16,9 +16,6 @@ import javax.swing.JPanel;
 public class OscillatorPanel extends JPanel{
 	/** Width of the gray area on the right side of the GUI. */
     static final int space_right = 80;
-    
-    /** The oscillatorValues is shown or not */
-    public static boolean showOscillator;
 
     private COTVisualizer cotVisualizer;
 
@@ -45,7 +42,7 @@ public class OscillatorPanel extends JPanel{
         g.drawLine(getWidth()-space_right, 0, getWidth()-space_right, getHeight());
 
 
-        if(showOscillator){
+        if(cotVisualizer.getShowOscillator()){
             g.setColor(Color.LIGHT_GRAY);
             g.drawLine(0, getHeight()/2, getWidth()-space_right, getHeight()/2);
             g.drawLine(0, getHeight()/2-25, getWidth()-space_right, getHeight()/2-25);
@@ -77,10 +74,6 @@ public class OscillatorPanel extends JPanel{
                             getHeight()/2+50-cotVisualizer.getOscillatorValues()[j+1]);
                 }
             }
-            
-            //showOscillator = false;
         }
-
-
     }
 }

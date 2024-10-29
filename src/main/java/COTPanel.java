@@ -12,42 +12,19 @@ import javax.swing.JPanel;
  */
 public class COTPanel extends JPanel {
 	/** Width of the gray area on the right side of the GUI. In this area the mouse dragging of the CPT chart is not possible. */
-    static final int space_right = 80;
-    
-    /** Height of the bottom area where the mouse dragging of the COT chart is not possible. */
-    static final int space_buttom = 20;
+    private final int space_right = 80;
     
     /** Width of the GUI */
-    static int width;
+    private int width;
     
     /** Height of the GUI */
-    static int height;
-    
-    /** COT Chart is painted or not */
-    //static boolean showCOTChart = true;
-    
-    /** Excel files are currently updating or not */
-    public static boolean updatingExcelFiles;
-    
-    /** Excel files are currently downloading or not */
-    public static boolean downloadingExcelFiles;
-    
-    /** The table files are currently being created or not */
-    public static boolean writingTableFiles;
-    
-    /** The message that the Application is beeing updated is shown or not */
-    public static boolean showUpdatingMessage;
-    
-    /** The name of the Future table file that is currently being created */
-    public static String nameOfTableFile="";
+    private int height;
 
     private COTVisualizer cotVisualizer;
 
     public COTPanel(COTVisualizer cotVisualizer) {
         this.cotVisualizer = cotVisualizer;
     }
-
-
 
 
     @Override
@@ -76,24 +53,24 @@ public class COTPanel extends JPanel {
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(width - space_right + 1, 0, width, height);
 
-        if (updatingExcelFiles) {
+        if (cotVisualizer.getUpdatingExcelFiles()) {
             g.drawString("UPDATING PLEASE WAIT", 100, 100);
         }
 
-        if (downloadingExcelFiles) {
+        if (cotVisualizer.getDownloadingExcelFiles()) {
             g.drawString("UPDATING PLEASE WAIT", 100, 100);
             g.drawString("Downloading new COT report....", 100, 120);
         }
 
-        if (writingTableFiles) {
+        if (cotVisualizer.getWritingTableFiles()) {
             g.drawString("UPDATING PLEASE WAIT", 100, 100);
             g.drawString("Writing tables....", 100, 120);
         }
 
-        if (showUpdatingMessage) {
+        if (cotVisualizer.getShowUpdatingMessage()) {
             g.drawString("UPDATING PLEASE WAIT", 100, 100);
             g.drawString("Writing tables....", 100, 120);
-            g.drawString("table "+nameOfTableFile, 100, 140);
+            g.drawString("table "+cotVisualizer.getNameOfTableFile(), 100, 140);
         }
 
         // DRAW CROSSHAIR
@@ -197,8 +174,6 @@ public class COTPanel extends JPanel {
             g.drawString("0", width + 10 - space_right, height / 2 + 5);
             g.setColor(Color.GRAY);
             g.drawString("0", width + 10 - space_right, height / 2 + 5);
-
-            //showCOTChart = false;
         }
     }
 }

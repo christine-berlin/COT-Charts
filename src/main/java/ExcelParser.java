@@ -75,8 +75,8 @@ public class ExcelParser {
                             if (OS.startsWith("Windows")) path = folderOfTables + "\\" + name;
                             if (!OS.startsWith("Windows")) path = folderOfTables + "/" + name;
                             File f = new File(path);
-                            COTPanel.showUpdatingMessage = true;
-                            COTPanel.nameOfTableFile = name;
+                            //COTPanel.showUpdatingMessage = true;
+                            //COTPanel.nameOfTableFile = name;
                             //COTVisualizer.gui.repaint();
                             SwingUtilities.invokeLater(() -> {
                                 cotVisualizer.getGui().repaint(); // Call repaint on the GUI instance

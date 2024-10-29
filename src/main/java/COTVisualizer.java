@@ -117,6 +117,8 @@ public class COTVisualizer {
      */
     private JButton updateButton;
 
+    private boolean updatingExcelFiles;
+
     /**
      * Instance of UpdateExcelFiles.
      */
@@ -154,6 +156,16 @@ public class COTVisualizer {
 
     private boolean showCOTChart;
 
+    private boolean downloadingExcelFiles;
+
+    private boolean writingTableFiles;
+
+    private boolean showUpdatingMessage;
+
+    private String nameOfTableFile;
+
+    private boolean showOscillator;
+
     /**
      * Main entry point.
      */
@@ -188,12 +200,53 @@ public class COTVisualizer {
     }
 
     /**
+     *  Getter Method for updatingExcelFiles
+     */
+    public boolean getDownloadingExcelFiles() {
+        return downloadingExcelFiles;
+    }
+
+    /**
+     *  Getter Method for writingTableFiles
+     */
+    public boolean getWritingTableFiles() {
+        return writingTableFiles;
+    }
+
+    /**
+     *  Getter Method for showUpdatingMessage
+     */
+    public boolean getShowUpdatingMessage() {
+        return showUpdatingMessage;
+    }
+
+    /**
+     *  Getter Method for showOscillator
+     */
+    public boolean getShowOscillator() {
+        return showOscillator;
+    }
+
+    /**
+     *  Getter Method for nameOfTableFile
+     */
+    public String getNameOfTableFile() {
+        return nameOfTableFile;
+    }
+
+    /**
+     *  Getter Method for updatingExcelFiles
+     */
+    public boolean getUpdatingExcelFiles() {
+        return updatingExcelFiles;
+    }
+
+    /**
      *  Getter Method for the gui
      */
     public JFrame getGui() {
         return gui;
     }
-
 
     /**
      *  Getter Method for oscillatorPanel
@@ -459,7 +512,7 @@ public class COTVisualizer {
         for (int i = 0; i < oscillatorValues.length; i++) {
             List<Integer> subList = Arrays.asList(commercials).subList(i, OSCILLATOR_OFFSET + i);
             int minIndex = i + subList.indexOf(Collections.min(subList));
-            int maxIndex = i+ subList.indexOf(Collections.max(subList));
+            int maxIndex = i + subList.indexOf(Collections.max(subList));
 
             int currentValue = commercials[i];
             int maxValue = commercials[maxIndex];
@@ -467,13 +520,6 @@ public class COTVisualizer {
 
             oscillatorValues[i] = (maxValue - minValue) != 0 ?
                     100 * (currentValue - minValue) / (maxValue - minValue) : 0;
-
-            if (i==oscillatorValues.length-1) {
-                subList.forEach(System.out::println);
-                System.out.println("min Index: "+minIndex+"  max Index: "+maxIndex);
-                System.out.println("min Value: "+minValue+"  max Value: "+maxValue);
-                System.out.println("Oscillator Value: "+oscillatorValues[i]);
-            }
         }
     }
 
@@ -511,25 +557,25 @@ public class COTVisualizer {
     private void updateCOTData() {
         new Thread(() -> {
             // Show updating message
-            COTPanel.updatingExcelFiles = true;
+            updatingExcelFiles = true;
             gui.repaint();
 
             updateExcelFiles.readhead();
-            COTPanel.downloadingExcelFiles = true;
+            downloadingExcelFiles = true;
             gui.repaint();
 
             updateExcelFiles.downloadCOT();
 
-            COTPanel.writingTableFiles = true;
-            COTPanel.downloadingExcelFiles = false;
+            writingTableFiles = true;
+            downloadingExcelFiles = false;
             gui.repaint();
 
             updateExcelFiles.update();
 
             SwingUtilities.invokeLater(() -> {
-                COTPanel.updatingExcelFiles = false;
-                COTPanel.writingTableFiles = false;
-                COTPanel.showUpdatingMessage = false;
+                updatingExcelFiles = false;
+                writingTableFiles = false;
+                showUpdatingMessage = false;
                 gui.repaint();
             });
         }).start();
@@ -550,9 +596,8 @@ public class COTVisualizer {
     private void refreshPanels() {
         if (!selectedFuture.isEmpty()) {
             // Repaint both the COT and Oscillator panels
-            //COTPanel.showCOTChart = true;
             showCOTChart = true;
-            OscillatorPanel.showOscillator = true;
+            showOscillator = true;
             gui.repaint();  // Repaint the GUI to reflect the changes
         }
     }
