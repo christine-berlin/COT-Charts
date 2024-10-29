@@ -467,6 +467,10 @@ public class COTVisualizer {
 
             oscillatorValues[i] = (maxValue - minValue) != 0 ?
                     100 * (currentValue - minValue) / (maxValue - minValue) : 0;
+
+            // Output fpr debugging
+            //System.out.println("Index: " + i + ", Current: " + currentValue + ", Min: " + minValue + ", Max: " + maxValue + ", Oscillator: " + oscillatorValues[i]);
+            //System.out.println("Offset: "+OSCILLATOR_OFFSET);
         }
     }
 
