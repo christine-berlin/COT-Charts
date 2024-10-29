@@ -471,6 +471,7 @@ public class COTVisualizer {
             // Output fpr debugging
             //System.out.println("Index: " + i + ", Current: " + currentValue + ", Min: " + minValue + ", Max: " + maxValue + ", Oscillator: " + oscillatorValues[i]);
             //System.out.println("Offset: "+OSCILLATOR_OFFSET);
+            System.out.println("Index: " + i +"MIN INDEX: "+minIndex +" MAX INDEX "+maxIndex);
         }
     }
 
