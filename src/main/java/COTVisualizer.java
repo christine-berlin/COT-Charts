@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Class <code>COTVisualizes</code> defines the GUI of the Application.
@@ -18,6 +20,8 @@ public class COTVisualizer {
      * Frame of the GUI
      */
     private JFrame gui;
+
+    private static final Logger logger = LogManager.getLogger(COTVisualizer.class);
 
     /**
      * MenuBar in the top of the GUI
@@ -478,6 +482,7 @@ public class COTVisualizer {
      * Loads COT data based on the selected future.
      */
     private void loadCOTData() {
+        logger.info("Loading COT CHart for selected future...");
         List<String> datesList = new ArrayList<>();
         List<Integer> commercialsList = new ArrayList<>();
         List<Integer> largeTradersList = new ArrayList<>();
