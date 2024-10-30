@@ -62,10 +62,6 @@ public class COTPanel extends JPanel {
             g.drawString("UPDATING PLEASE WAIT", 100, 100);
         }
 
-        if (cotVisualizer.getNoData()) {
-            g.drawString("NO DATA AVAILABLE", 100, 80);
-        }
-
         if (cotVisualizer.getDownloadingExcelFiles()) {
             g.drawString("UPDATING PLEASE WAIT", 100, 100);
             g.drawString("Downloading new COT report....", 100, 120);

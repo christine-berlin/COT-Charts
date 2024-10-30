@@ -140,8 +140,6 @@ public class COTVisualizer {
      */
     final int deltaX = 5;
 
-    private boolean NoData;
-
     /**
      * Offset for oscillator calculation
      */
@@ -472,13 +470,6 @@ public class COTVisualizer {
     }
 
     /**
-     *  Getter Method for the NoData
-     */
-    public boolean getNoData()  {
-        return NoData;
-    }
-
-    /**
      * Loads COT data based on the selected future.
      */
     private void loadCOTData() {
@@ -488,7 +479,7 @@ public class COTVisualizer {
         List<Integer> largeTradersList = new ArrayList<>();
         List<Integer> smallTradersList = new ArrayList<>();
 
-        NoData = false;
+
         try (BufferedReader reader = new BufferedReader(new FileReader(TABLES_DIRECTORY + selectedFuture))) {
             String line;
             while ((line = reader.readLine()) != null) {
