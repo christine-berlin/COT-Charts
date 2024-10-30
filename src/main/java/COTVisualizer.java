@@ -118,11 +118,6 @@ public class COTVisualizer {
      */
     private int yOffset = 0;
 
-    /**
-     * Update button.
-     */
-    private JButton updateButton;
-
     private boolean updatingExcelFiles;
 
     /**
@@ -391,10 +386,10 @@ public class COTVisualizer {
         gridCheckbox = new JCheckBox("Show Grid");
         gridCheckbox.addItemListener(e -> toggleGrid());
 
-        crosshairCheckbox = new JCheckBox("Show Crosshair");
+        crosshairCheckbox = new JCheckBox("Show Cross hair");
         crosshairCheckbox.addItemListener(e -> toggleCrosshair());
 
-        updateButton = new JButton("Update COT");
+        JButton updateButton = new JButton("Update COT");
         updateButton.addActionListener(e -> updateCOTData());
 
         menuBar.add(label);
@@ -582,6 +577,7 @@ public class COTVisualizer {
     private void updateCOTData() {
         new Thread(() -> {
             // Show updating message
+            showCOTChart = false;
             updatingExcelFiles = true;
             gui.repaint();
 
